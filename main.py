@@ -144,7 +144,7 @@ cookies_file_path= "youtube_cookies.txt"
 @bot.on_message(filters.command(["help"]))
 async def txt_handler(client: Client, m: Message):
     await bot.send_message(m.chat.id, text= (
-        "<pre><code> 🎉Congrats! You are using 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎:</code></pre>\n┣\n"
+        "🎉Congrats! You are using 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎:\n┣\n"
         "┣⪼01. Send /start - To Check Bot \n┣\n"
         "┣⪼02. Send /drm - for extract txt file\n┣\n"
         "┣⪼03. Send /cp - for stream txt file\n┣\n"
@@ -153,7 +153,7 @@ async def txt_handler(client: Client, m: Message):
         "┣⪼06. Send /cookies - To update YT cookies.\n┣\n"
         "┣⪼07. Send /stop - Stop the Running Task. 🚫\n┣\n"
         "┣⪼🔗  Direct Send Link For Extract (with https://)\n┣\n"
-        "<pre><code>If you have any questions, feel free to ask! 💬</code></pre>"
+        "**If you have any questions, feel free to ask! 💬**"
         )
     ) 
 
@@ -219,7 +219,7 @@ async def send_logs(bot: Client, m: Message):
 
 @bot.on_message(filters.command(["stop"]) )
 async def restart_handler(_, m):
-    await m.reply_text("ˢᵗᵒᵖᵖᵉᵈ ᵇᵃᵇʸ", True)
+    await m.reply_text("**ˢᵗᵒᵖᵖᵉᵈ ᵇᵃᵇʸ**", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 @bot.on_message(filters.command(["y2t"]))
@@ -227,8 +227,8 @@ async def youtube_to_txt(client, message: Message):
     user_id = str(message.from_user.id)
     
     await message.reply_text(
-        "<pre><code>Welcome to the YouTube to .txt🗃️ Converter!</code></pre>\n"
-        "<pre><code>Please Send YouTube Playlist link for convert into a `.txt` file.</code></pre>\n"
+        "**Welcome to the YouTube to .txt🗃️ Converter!**\n"
+        "**Send YT Playlist link for convert into a `.txt` file.**\n"
     )
 
     input_message: Message = await bot.listen(message.chat.id)
@@ -258,22 +258,6 @@ async def youtube_to_txt(client, message: Message):
             )
             return
 
-    # Ask the user for the custom file name
-    file_name_message = await message.reply_text(
-        f"<pre><code>🔤 Send file name (without extension)</code></pre>\n"
-        f"**✨ Send  `1`  for Default**\n"
-        f"<pre><code>{title}</code></pre>\n"
-    )
-
-    input4: Message = await bot.listen(message.chat.id, filters=filters.text & filters.user(message.from_user.id))
-    raw_text4 = input4.text
-    await file_name_message.delete(True)
-    await input4.delete(True)
-    if raw_text4 == '1':
-       custom_file_name  = title
-    else:
-       custom_file_name = raw_text4
-    
     # Extract the YouTube links
     videos = []
     if 'entries' in result:
@@ -287,7 +271,7 @@ async def youtube_to_txt(client, message: Message):
         videos.append(f"{video_title}: {url}")
 
     # Create and save the .txt file with the custom name
-    txt_file = os.path.join("downloads", f'{custom_file_name}.txt')
+    txt_file = os.path.join("downloads", f'{title}.txt')
     os.makedirs(os.path.dirname(txt_file), exist_ok=True)  # Ensure the directory exists
     with open(txt_file, 'w') as f:
         f.write('\n'.join(videos))
@@ -295,7 +279,7 @@ async def youtube_to_txt(client, message: Message):
     # Send the generated text file to the user with a pretty caption
     await message.reply_document(
         document=txt_file,
-        caption=f'<a href="{youtube_link}">__**Click Here to open Playlist**__</a>\n<pre><code>{custom_file_name}.txt</code></pre>\n'
+        caption=f'<a href="{youtube_link}">__**Click Here to open Playlist**__</a>\n<pre><code>{title}.txt</code></pre>\n'
     )
 
     # Remove the temporary text file after sending
