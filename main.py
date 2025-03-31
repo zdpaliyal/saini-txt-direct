@@ -619,7 +619,7 @@ async def txt_handler(bot: Client, m: Message):
         os.remove(x)
         return
 
-    await editable.edit(f"<pre><code>Total 🔗 links found are {len(links)}\nSend From where you want to download</code></pre>")
+    await editable.edit(f"<pre><code>Total 🔗 links found are {len(links)}\nSend From where you want to stream</code></pre>")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
@@ -654,7 +654,7 @@ async def txt_handler(bot: Client, m: Message):
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
-                        time.sleep(1)    
+                        time.sleep(3)    
                         continue         
 
                 elif "classplusapp.com" in url:
@@ -663,7 +663,7 @@ async def txt_handler(bot: Client, m: Message):
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
-                        time.sleep(1)    
+                        time.sleep(3)    
                         continue           
 
                 elif "youtu" in url:
@@ -672,7 +672,7 @@ async def txt_handler(bot: Client, m: Message):
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
-                        time.sleep(1)    
+                        time.sleep(3)    
                         continue              
                 
                 else:
