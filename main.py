@@ -622,7 +622,7 @@ async def txt_handler(bot: Client, m: Message):
     await editable.delete(True)
     b_name = file_name
     await m.reply_text(
-        f"<blockquote>"
+        f"<blockquote>"\n
         f"🎯Target Batch : {b_name}"\n
         f"</blockquote>"
         )  
