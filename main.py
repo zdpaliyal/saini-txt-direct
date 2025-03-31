@@ -621,7 +621,11 @@ async def txt_handler(bot: Client, m: Message):
 
     await editable.delete(True)
     b_name = file_name
-    await m.reply_text(f"<pre><code>🎯Target Batch : {b_name}</code></pre>")  
+    await m.reply_text(
+        f"<blockquote>"
+        f"🎯Target Batch : {b_name}"\n
+        f"</blockquote>"
+        )  
     
     arg = 1
     count = 1   
@@ -638,13 +642,13 @@ async def txt_handler(bot: Client, m: Message):
             try:  
                 cccp = f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name1}.mp4`\n\n<a href="{urlcp}">__**Click Here to Watch Stream**__</a>\n\n<pre><code>📚 Course : {b_name}</code></pre>\n'
                                 
-                if ".pdf" in url or "drive" in url:
+                if ".pdf" in url or "drive" in url or ".jpg" in url or ".jpeg" in url or ".png" in url:
                     try:
                         await m.reply_text(f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Click Here to Download**__</a>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`')
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
-                        time.sleep(3)    
+                        time.sleep(1)    
                         continue         
 
                 elif "classplusapp.com" in url:
@@ -653,7 +657,7 @@ async def txt_handler(bot: Client, m: Message):
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
-                        time.sleep(3)    
+                        time.sleep(1)    
                         continue           
 
                 elif "youtu" in url:
@@ -662,7 +666,7 @@ async def txt_handler(bot: Client, m: Message):
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
-                        time.sleep(3)    
+                        time.sleep(1)    
                         continue              
                 
                 else:
@@ -674,11 +678,12 @@ async def txt_handler(bot: Client, m: Message):
                     await emoji_message.delete()
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
-                    time.sleep(1)
+                    time.sleep(3)
 
             except Exception as e:
                 await m.reply_text(f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Click Here to check manually**__</a>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`')
                 count += 1
+                time.sleep(3)
                 continue
 
     except Exception as e:
