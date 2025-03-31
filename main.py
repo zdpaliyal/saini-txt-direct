@@ -619,13 +619,22 @@ async def txt_handler(bot: Client, m: Message):
         os.remove(x)
         return
 
+    await editable.edit(f"<pre><code>Total 🔗 links found are {len(links)}\nSend From where you want to download</code></pre>")
+    input0: Message = await bot.listen(editable.chat.id)
+    raw_text = input0.text
+    await input0.delete(True)
+    try:
+        arg = int(raw_text)
+    except:
+        arg = 1
+        
     await editable.delete(True)
     b_name = file_name
     await m.reply_text(
         f"<pre>🎯Target Batch : {b_name}</pre>")  
     
-    arg = 1
-    count = 1   
+    arg = int(raw_text)
+    count = int(raw_text)
     try: 
         for i in range(arg-1, len(links)):
             Vxy = links[i][1].replace("file/d/","uc?export=download&id=").replace("www.youtube-nocookie.com/embed", "youtu.be").replace("?modestbranding=1", "").replace("/view?usp=sharing","")
