@@ -193,6 +193,18 @@ async def cookies_handler(client: Client, m: Message):
 
     except Exception as e:
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
+
+@bot.on_message(filters.command("getcookies") & filters.private)
+async def getcookies_handler(client: Client, m: Message):
+    try:
+        # Send the cookies file to the user
+        await client.send_document(
+            chat_id=m.chat.id,
+            document=cookies_file_path,
+            caption="Here is the `youtube_cookies.txt` file."
+        )
+    except Exception as e:
+        await m.reply_text(f"⚠️ An error occurred: {str(e)}")
         
 # Start command handler
 @bot.on_message(filters.command(["start"]))
