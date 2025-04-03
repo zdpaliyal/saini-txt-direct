@@ -151,7 +151,9 @@ async def txt_handler(client: Client, m: Message):
         "┣⪼04. Send /y2t - YouTube to .txt Convert\n┣\n"
         "┣⪼05. Send /logs - To see Bot Working Logs\n┣\n"
         "┣⪼06. Send /cookies - To update YT cookies.\n┣\n"
-        "┣⪼07. Send /stop - Stop the Running Task. 🚫\n┣\n"
+        "┣⪼07. Send /id - Know chat/group/channel ID.\n┣\n"
+        "┣⪼08. Send /info - Your information.\n┣\n"
+        "┣⪼09. Send /stop - Stop the Running Task. 🚫\n┣\n"
         "┣⪼🔗  Direct Send Link For Extract (with https://)\n┣\n"
         "**If you have any questions, feel free to ask! 💬**"
         )
@@ -206,6 +208,34 @@ async def start_command(bot: Client, message: Message):
         caption=caption,
         reply_markup=keyboard
     )
+
+@bot.on_message(filters.private & filters.command(["info"]))
+async def info(bot: Client, update: Message):
+    
+    text = (
+        f"╭────────────────╮\n"
+        f"│**__Your Telegram Info__**\n"
+        f"├────────────────\n"
+        f"├🙋🏻‍♂️ **Name :** [{update.from_user.first_name} {update.from_user.last_name if update.from_user.last_name else 'None'}]({update.from_user.mention})\n"
+        f"├🧑🏻‍🎓 **Username :** @{update.from_user.username}\n"
+        f"├🆔 **TG ID :** [{update.from_user.id}]({update.from_user.mention})\n"
+        f"╰────────────────╯"
+    )
+    
+    await update.reply_text(        
+        text=text,
+        disable_web_page_preview=True,
+        reply_markup=BUTTONS
+    )
+
+BUTTONS = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url=f"https://t.me/+MdZ2996M2G43MWFl")]])
+
+# /id Command - Show Group/Channel ID
+@bot.on_message(filters.command(["id"]))
+async def id_command(client, message: Message):
+    chat_id = message.chat.id
+    await message.reply_text(f"**ID : `{chat_id}`**\n\n")
+
 
 @bot.on_message(filters.command(["logs"]) )
 async def send_logs(bot: Client, m: Message):
