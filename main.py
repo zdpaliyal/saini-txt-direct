@@ -228,7 +228,7 @@ async def info(bot: Client, update: Message):
         reply_markup=BUTTONS
     )
 
-BUTTONS = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url=f"{user.mention}")]])
+BUTTONS = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url=f"https://t.me/+-UUAslfhnugyZjZl")]])
 
 # /id Command - Show Group/Channel ID
 @bot.on_message(filters.command(["id"]))
