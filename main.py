@@ -214,11 +214,12 @@ async def info(bot: Client, update: Message):
     
     text = (
         f"╭────────────────╮\n"
-        f"│**__Your Telegram Info__**\n"
+        f"│✨ **__Your Telegram Info__**✨ \n"
         f"├────────────────\n"
-        f"├🙋🏻‍♂️ **Name :** [{update.from_user.first_name} {update.from_user.last_name if update.from_user.last_name else 'None'}]({update.from_user.mention})\n"
-        f"├🧑🏻‍🎓 **Username :** @{update.from_user.username}\n"
-        f"├🆔 **TG ID :** [{update.from_user.id}]({update.from_user.mention})\n"
+        f"├🔹**Name :** `{update.from_user.first_name} {update.from_user.last_name if update.from_user.last_name else 'None'}`n"
+        f"├🔹**User ID :** @{update.from_user.username}\n"
+        f"├🔹**TG ID :** {update.from_user.id}\n"
+        f"├🔹**Profile :** {update.from_user.mention}\n"
         f"╰────────────────╯"
     )
     
@@ -675,9 +676,11 @@ async def txt_handler(bot: Client, m: Message):
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{name1[:60]}'
 
+            BUTTONSMAN= InlineKeyboardMarkup([[InlineKeyboardButton(text="Check Manually", url=f"{link0}")]])
+            
             try:  
-                BUTTONSCP = InlineKeyboardMarkup([[InlineKeyboardButton(text="CP Stream", url=f"{urlcp}")]])
-                BUTTONSYT = InlineKeyboardMarkup([[InlineKeyboardButton(text="YT Stream", url=f"{url}")]])
+                BUTTONSCP = InlineKeyboardMarkup([[InlineKeyboardButton(text="Classplus Stream", url=f"{urlcp}")]])
+                BUTTONSYT = InlineKeyboardMarkup([[InlineKeyboardButton(text="YouTube Stream", url=f"{url}")]])
                 BUTTONSDOC = InlineKeyboardMarkup([[InlineKeyboardButton(text="Download Here", url=f"{url}")]])
 
                 if ".pdf" in url or "drive" in url or ".jpg" in url or ".jpeg" in url or ".png" in url:
@@ -719,7 +722,7 @@ async def txt_handler(bot: Client, m: Message):
                     time.sleep(3)
 
             except Exception as e:
-                await m.reply_text(f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Click Here to check manually**__</a>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`')
+                await m.reply_text(text=f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`', disable_web_page_preview=True, reply_markup=BUTTONSMAN)
                 count += 1
                 time.sleep(3)
                 continue
