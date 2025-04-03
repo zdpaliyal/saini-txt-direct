@@ -228,7 +228,7 @@ async def info(bot: Client, update: Message):
         reply_markup=BUTTONS
     )
 
-BUTTONS = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url=f"https://t.me/+MdZ2996M2G43MWFl")]])
+BUTTONS = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url=f"{update.from_user.mention}")]])
 
 # /id Command - Show Group/Channel ID
 @bot.on_message(filters.command(["id"]))
@@ -676,11 +676,13 @@ async def txt_handler(bot: Client, m: Message):
             name = f'{name1[:60]}'
 
             try:  
-                cccp = f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name1}.mp4`\n\n<a href="{urlcp}">__**Click Here to Watch Stream**__</a>\n\n<pre><code>📚 Course : {b_name}</code></pre>\n'
-                                
+                BUTTONSCP = InlineKeyboardMarkup([[InlineKeyboardButton(text="CP Stream", url=f"{urlcp}")]])
+                BUTTONSYT = InlineKeyboardMarkup([[InlineKeyboardButton(text="YT Stream", url=f"{url}")]])
+                BUTTONSDOC = InlineKeyboardMarkup([[InlineKeyboardButton(text="Download Here", url=f"{url}")]])
+
                 if ".pdf" in url or "drive" in url or ".jpg" in url or ".jpeg" in url or ".png" in url:
                     try:
-                        await m.reply_text(f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Click Here to Download**__</a>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`')
+                        await m.reply_text(text=f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`', disable_web_page_preview=True, reply_markup=BUTTONSDOC)
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
@@ -689,7 +691,7 @@ async def txt_handler(bot: Client, m: Message):
 
                 elif "classplusapp.com" in url:
                     try:
-                        await m.reply_text(f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » <a href="{urlcp}">__**Click Here to Watch Stream**__</a>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`')
+                        await m.reply_text(text=f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`', disable_web_page_preview=True, reply_markup=BUTTONSCP)
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
@@ -698,7 +700,7 @@ async def txt_handler(bot: Client, m: Message):
 
                 elif "youtu" in url:
                     try:
-                        await m.reply_text(f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Click Here to Watch Stream**__</a>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`')
+                        await m.reply_text(text=f'——— ✨ [{str(count).zfill(3)}]({link0}) ✨ ———\n\n📔𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `🇸‌🇦‌🇮‌🇳‌🇮‌🐦`', disable_web_page_preview=True, reply_markup=BUTTONSYT)
                         count +=1
                     except Exception as e:
                         await m.reply_text(str(e))    
