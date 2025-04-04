@@ -623,19 +623,20 @@ async def txt_handler(bot: Client, m: Message):
                         count += 1
                         continue
 
-                elif ".jpg" in url or ".png" in url:
+                elif any(ext in url for ext in [".jpg", ".jpeg", ".png"]):
                     try:
-                        cmd = f'yt-dlp -o "{name}.jpg" "{url}"'
+                        ext = url.split('.')[-1]
+                        cmd = f'yt-dlp -o "{name}.{ext}" "{url}"'
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
                         os.system(download_cmd)
-                        copy = await bot.send_photo(chat_id=m.chat.id, document=f'{name}.jpg', caption=ccimg)
+                        copy = await bot.send_photo(chat_id=m.chat.id, photo=f'{name}.{ext}', caption=cc1)
                         count += 1
-                        os.remove(f'{name}.jpg')
+                        os.remove(f'{name}.{ext}')
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         count += 1
-                        continue
+                        continue 
 
                 elif "cpvod.testbook.com" in url:
                     try:
