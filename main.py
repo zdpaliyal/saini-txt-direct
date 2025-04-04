@@ -330,26 +330,42 @@ async def youtube_to_txt(client, message: Message):
 
 @bot.on_message(filters.command(["drm"]) )
 async def txt_handler(bot: Client, m: Message):
-    editable = await m.reply_text(f"<pre><code>🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the TXT file and wait.</code></pre>")
+    editable = await m.reply_text(f"<pre><code>🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the txt file and wait.</code></pre>")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(x))
     credit = f"𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎"
+    pdf_count = 0
+    img_count = 0
+    zip_count = 0
+    video_count = 0
+    
     try:    
         with open(x, "r") as f:
             content = f.read()
         content = content.split("\n")
+        
         links = []
         for i in content:
-            links.append(i.split("://", 1))
+            if "://" in i:
+                url = i.split("://", 1)[1]
+                links.append(i.split("://", 1))
+                if ".pdf" in url:
+                    pdf_count += 1
+                elif url.endswith((".png", ".jpeg", ".jpg")):
+                    img_count += 1
+                elif ".zip" in url:
+                    zip_count += 1
+                else:
+                    video_count += 1
         os.remove(x)
     except:
-        await m.reply_text("<pre><code>Invalid file input.</code></pre>")
+        await m.reply_text("<pre><code>🔹Invalid file input.</code></pre>")
         os.remove(x)
         return
    
-    await editable.edit(f"<pre><code>Total 🔗 links found are {len(links)}\nSend From where you want to download</code></pre>")
+    await editable.edit(f"`🔹Total 🔗 links found are {len(links)}\n\n🔹Img : {img_count}  🔹PDF : {pdf_count}\n🔹ZIP : {zip_count}  🔹Video : {video_count}\n\n🔹Send From where you want to download.`")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
@@ -643,8 +659,20 @@ async def txt_handler(bot: Client, m: Message):
 
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text(f"<pre><code>⌈✨Total Failed link『{failed_count}』✨⌋</code></pre>")
+    await m.reply_text(f"`✨𝙱𝚊𝚝𝚌𝚑 𝚂𝚞𝚖𝚖𝚊𝚛𝚢✨\n"
+                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"🔢𝙸𝚗𝚍𝚎𝚡 𝚁𝚊𝚗𝚐𝚎 » ({raw_text} to {len(links)})\n"
+                       f"📚𝙱𝚊𝚝𝚌𝚑 𝙽𝚊𝚖𝚎 » {b_name}\n"
+                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"✨𝚃𝚡𝚝 𝚂𝚞𝚖𝚖𝚊𝚛𝚢✨ : {len(links)}\n"
+                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"🔹𝚉𝙸𝙿 » {zip_count}  🔹𝙿𝙳𝙵 » {pdf_count}\n"
+                       f"🔹𝙸𝚖𝚐 » {img_count}  🔹𝚅𝚒𝚍𝚎𝚘 » {video_count}\n"
+                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"🔹𝙵𝚊𝚒𝚕𝚎𝚍 𝙻𝚒𝚗𝚔𝚜 » {failed_count}\n"
+                       f"✅𝚂𝚝𝚊𝚝𝚞𝚜 » 𝙲𝚘𝚖𝚙𝚕𝚎𝚝𝚎𝚍`")
     await m.reply_text("<pre><code>Downloaded By ⌈✨『𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎』✨⌋</code></pre>")
+
 
 @bot.on_message(filters.command(["cp"]) )
 async def txt_handler(bot: Client, m: Message):
