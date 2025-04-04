@@ -836,7 +836,15 @@ async def text_handler(bot: Client, m: Message):
 
             name1 = links.replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{name1[:20]}'
-            
+
+            if "https://appx-transcoded-videos.livelearn.in/videos/rozgar-data/" in url:
+                url = url.replace("https://appx-transcoded-videos.livelearn.in/videos/rozgar-data/", "")
+                cmd = f'yt-dlp -o "{name}.mp4" "{url}"'
+                
+            if "https://appx-transcoded-videos-mcdn.akamai.net.in/videos/bhainskipathshala-data/" in url:
+                url = url.replace("https://appx-transcoded-videos-mcdn.akamai.net.in/videos/bhainskipathshala-data/", "")
+                cmd = f'yt-dlp -o "{name}.mp4" "{url}"'
+        
             #if 'cpvod.testbook.com' in url:
                #data = requests.get(f"https://api.masterapi.tech/get/get-hls-key?token=eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9r").json()
                #url = f"http://api.masterapi.tech/akamai-player-v3?url={url}&hls-key={data}"
@@ -861,6 +869,9 @@ async def text_handler(bot: Client, m: Message):
             elif "youtube.com" in url or "youtu.be" in url:
                 cmd = f'yt-dlp --cookies youtube_cookies.txt -f "{ytf}" "{url}" -o "{name}".mp4'
 
+            elif "webvideos.classplusapp." in url:
+               cmd = f'yt-dlp --add-header "referer:https://web.classplusapp.com/" --add-header "x-cdn-tag:empty" -f "{ytf}" "{url}" -o "{name}.mp4"'
+         
             else:
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
