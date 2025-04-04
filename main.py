@@ -328,6 +328,19 @@ async def youtube_to_txt(client, message: Message):
     # Remove the temporary text file after sending
     os.remove(txt_file)
 
+
+def process_links(links):
+    processed_links = []
+    
+    for link in links.splitlines():
+        if "m3u8" in link:
+            processed_links.append(link)
+        elif "mpd" in link:
+            # Remove everything after and including '*'
+            processed_links.append(re.sub(r'\*.*', '', link))
+    
+    return "\n".join(processed_links)
+    
 @bot.on_message(filters.command('studyiqeditor'))
 async def run_bot(bot: Client, m: Message):
     editable = await m.reply_text("**Send Your TXT file with links**\n")
