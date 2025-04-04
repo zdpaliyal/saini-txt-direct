@@ -489,12 +489,12 @@ async def txt_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:  
-                cc = f'[🎥]**Vid Id :** [{str(count).zfill(3)}]({link0})\n**Video Title :** `{name1}` [{res}p] .mkv\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
-                cc1 = f'[📕]**Pdf Id :** [{str(count).zfill(3)}]({link0})\n**File Title :** `{name1}` .pdf\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
-                cczip = f'[📁]**Zip Id :** [{str(count).zfill(3)}]({link0})\n**Zip Title :** `{name1}` .zip\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n' 
-                ccimg = f'[🖼️]**Img Id :** [{str(count).zfill(3)}]({link0})\n**Img Title :** `{name1}` .jpg\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
-                cccpvod = f'[🎥]**Vid Id :** [{str(count).zfill(3)}]({link0})\n**Video Title :** `{name1}` .mp4\n<a href="{urlcpvod}">__**Click Here to Watch Stream**__</a>\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
-                ccyt = f'[🎥]**Vid Id :** [{str(count).zfill(3)}]({link0})\n**Video Title :** `{name1}` .mp4\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
+                cc = f'[🎥Vid Id : {str(count).zfill(3)}]({link0})\n**Video Title :** `{name1} [{res}p] .mkv`\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
+                cc1 = f'[📕Pdf Id : {str(count).zfill(3)}]({link0})\n**File Title :** `{name1} .pdf`\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
+                cczip = f'[📁Zip Id : {str(count).zfill(3)}]({link0})\n**Zip Title :** `{name1} .zip`\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n' 
+                ccimg = f'[🖼️Img Id : {str(count).zfill(3)}]({link0})\n**Img Title :** `{name1} .jpg`\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
+                cccpvod = f'[🎥Vid Id : {str(count).zfill(3)}]({link0})\n**Video Title :** `{name1} .mp4`\n<a href="{urlcpvod}">__**Click Here to Watch Stream**__</a>\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
+                ccyt = f'[🎥Vid Id : {str(count).zfill(3)}]({link0})\n**Video Title :** `{name1} .mp4`\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n<pre><code>📚 Course : {b_name}</code></pre>\n\n**Extracted by➤**`{CR}`\n'
                                  
                 if "drive" in url:
                     try:
