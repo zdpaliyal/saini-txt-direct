@@ -328,6 +328,26 @@ async def youtube_to_txt(client, message: Message):
     # Remove the temporary text file after sending
     os.remove(txt_file)
 
+@bot.on_message(filters.command('studyiqeditor'))
+async def run_bot(bot: Client, m: Message):
+    editable = await m.reply_text("**Send Your TXT file with links**\n")
+    input: Message = await bot.listen(editable.chat.id)
+    txt_file = await input.download()
+    await input.delete(True)
+    await editable.delete()
+    
+    with open(txt_file, 'r') as f:
+        content = f.read()
+    
+    processed_content = process_links(content)
+    
+    processed_txt_file = os.path.splitext(txt_file)[0] + '_processed.txt'
+    with open(processed_txt_file, 'w') as f:
+        f.write(processed_content)
+    
+    await m.reply_document(document=processed_txt_file, caption="Here is your processed txt file.")
+    os.remove(processed_txt_file)   
+    
 @bot.on_message(filters.command(["drm"]) )
 async def txt_handler(bot: Client, m: Message):
     editable = await m.reply_text(f"<pre><code>🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the txt file and wait.</code></pre>")
