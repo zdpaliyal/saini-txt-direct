@@ -327,39 +327,6 @@ async def youtube_to_txt(client, message: Message):
 
     # Remove the temporary text file after sending
     os.remove(txt_file)
-
-
-def process_links(links):
-    processed_links = []
-    
-    for link in links.splitlines():
-        if "m3u8" in link:
-            processed_links.append(link)
-        elif "mpd" in link:
-            # Remove everything after and including '*'
-            processed_links.append(re.sub(r'\*.*', '', link))
-    
-    return "\n".join(processed_links)
-    
-@bot.on_message(filters.command('studyiqeditor'))
-async def run_bot(bot: Client, m: Message):
-    editable = await m.reply_text("**Send Your TXT file with links**\n")
-    input: Message = await bot.listen(editable.chat.id)
-    txt_file = await input.download()
-    await input.delete(True)
-    await editable.delete()
-    
-    with open(txt_file, 'r') as f:
-        content = f.read()
-    
-    processed_content = process_links(content)
-    
-    processed_txt_file = os.path.splitext(txt_file)[0] + '_processed.txt'
-    with open(processed_txt_file, 'w') as f:
-        f.write(processed_content)
-    
-    await m.reply_document(document=processed_txt_file, caption="Here is your processed txt file.")
-    os.remove(processed_txt_file)   
     
 @bot.on_message(filters.command(["drm"]) )
 async def txt_handler(bot: Client, m: Message):
@@ -406,6 +373,16 @@ async def txt_handler(bot: Client, m: Message):
         arg = int(raw_text)
     except:
         arg = 1
+
+    await editable.edit(f"`🔹Total 🔗 links found are {len(links)}\n\n🔹Send till you want to download.`")
+    inputend: Message = await bot.listen(editable.chat.id)
+    raw_textend = inputend.text
+    await inputend.delete(True)
+    try:
+        end = int(raw_textend)
+    except:
+        end = len(links)  
+        
     await editable.edit("<pre><code>Enter Your Batch Name\nSend 1 for use default.</code></pre>")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
@@ -481,7 +458,7 @@ async def txt_handler(bot: Client, m: Message):
     failed_count = 0
     count =int(raw_text)    
     try:
-        for i in range(arg-1, len(links)):
+        for i in range(arg-1, end):
             Vxy = links[i][1].replace("file/d/","uc?export=download&id=").replace("www.youtube-nocookie.com/embed", "youtu.be").replace("?modestbranding=1", "").replace("/view?usp=sharing","")
             url = "https://" + Vxy
             link0 = "https://" + Vxy
@@ -695,7 +672,7 @@ async def txt_handler(bot: Client, m: Message):
         await m.reply_text(e)
     await m.reply_text(f"`✨𝙱𝚊𝚝𝚌𝚑 𝚂𝚞𝚖𝚖𝚊𝚛𝚢✨\n"
                        f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
-                       f"🔢𝙸𝚗𝚍𝚎𝚡 𝚁𝚊𝚗𝚐𝚎 » ({raw_text} to {len(links)})\n"
+                       f"🔢𝙸𝚗𝚍𝚎𝚡 𝚁𝚊𝚗𝚐𝚎 » {raw_text} ➠ {end}\n"
                        f"📚𝙱𝚊𝚝𝚌𝚑 𝙽𝚊𝚖𝚎 » {b_name}\n"
                        f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
                        f"✨𝚃𝚡𝚝 𝚂𝚞𝚖𝚖𝚊𝚛𝚢✨ : {len(links)}\n"
