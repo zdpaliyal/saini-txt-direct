@@ -9,4 +9,4 @@ WORKDIR /app/
 RUN pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir --upgrade -r requirements.txt \
     && python3 -m pip install -U yt-dlp
-CMD gunicorn app:app & python3 main.py
+CMD gunicorn app:app & python3 main.html
