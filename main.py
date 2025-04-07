@@ -169,25 +169,6 @@ async def cookies_handler(client: Client, m: Message):
         )
     except Exception as e:
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
-# Define the file path you want to send
-files_path = "nikhilsainiop/saini-txt-direct"
-@bot.on_message(filters.command("getfiles") & filters.private)
-async def getfiles_handler(client: Client, m: Message):
-    try:
-        # Iterate over all files in the directory
-        for root, dirs, files in os.walk(files_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                # Send each file to the user
-                await client.send_document(
-                    chat_id=m.chat.id,
-                    document=file_path,
-                    caption=f"Here is the `{file}` file."
-                )
-    except Exception as e:
-        await m.reply_text(f"⚠️ An error occurred: {str(e)}")
-
-# Add this handler to your bot's script
 m_file_path= "main.py"
 @bot.on_message(filters.command("getcookies") & filters.private)
 async def getcookies_handler(client: Client, m: Message):
