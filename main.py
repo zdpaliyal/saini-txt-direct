@@ -108,10 +108,8 @@ async def main():
         while True:
             await asyncio.sleep(3600)  # Run forever, or until interrupted
     except (KeyboardInterrupt, SystemExit):
-        await stop_bot()
-        
+        await stop_bot()        
 import random
-
 # Inline keyboard for start command
 keyboard = InlineKeyboardMarkup(
     [
@@ -121,26 +119,13 @@ keyboard = InlineKeyboardMarkup(
         ],
     ]
 )
-
-# Inline keyboard for busy status
-Busy = InlineKeyboardMarkup(
-    [
-        [
-            InlineKeyboardButton(text="📞 Contact", url="https://t.me/Nikhil_saini_khe"),
-            InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+3k-1zcJxINYwNGZl"),
-        ],
-    ]
-)
-
 # Image URLs for the random image feature
 image_urls = [
     "https://tinypic.host/images/2025/02/07/IMG_20250207_224444_975.jpg",
     "https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png",
     # Add more image URLs as needed
 ]
-
 cookies_file_path= "youtube_cookies.txt"
-
 @bot.on_message(filters.command(["help"]))
 async def txt_handler(client: Client, m: Message):
     await bot.send_message(m.chat.id, text= (
@@ -158,42 +143,33 @@ async def txt_handler(client: Client, m: Message):
         "**If you have any questions, feel free to ask! 💬**"
         )
     ) 
-
-
 @bot.on_message(filters.command("cookies") & filters.private)
 async def cookies_handler(client: Client, m: Message):
     await m.reply_text(
         "Please upload the cookies file (.txt format).",
         quote=True
     )
-
     try:
         # Wait for the user to send the cookies file
         input_message: Message = await client.listen(m.chat.id)
-
         # Validate the uploaded file
         if not input_message.document or not input_message.document.file_name.endswith(".txt"):
             await m.reply_text("Invalid file type. Please upload a .txt file.")
             return
-
         # Download the cookies file
         downloaded_path = await input_message.download()
-
         # Read the content of the uploaded file
         with open(downloaded_path, "r") as uploaded_file:
             cookies_content = uploaded_file.read()
-
         # Replace the content of the target cookies file
         with open(cookies_file_path, "w") as target_file:
             target_file.write(cookies_content)
-
         await input_message.reply_text(
             "✅ Cookies updated successfully.\n📂 Saved in `youtube_cookies.txt`."
         )
-
     except Exception as e:
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
-
+m_file_path= "main.py"
 @bot.on_message(filters.command("getcookies") & filters.private)
 async def getcookies_handler(client: Client, m: Message):
     try:
@@ -204,26 +180,19 @@ async def getcookies_handler(client: Client, m: Message):
             caption="Here is the `youtube_cookies.txt` file."
         )
     except Exception as e:
+        await m.reply_text(f"⚠️ An error occurred: {str(e)}")     
+@bot.on_message(filters.command("mfile") & filters.private)
+async def getcookies_handler(client: Client, m: Message):
+    try:
+        await client.send_document(
+            chat_id=m.chat.id,
+            document=m_file_path,
+            caption="Here is the `main.py` file."
+        )
+    except Exception as e:
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
-        
-# Start command handler
-@bot.on_message(filters.command(["start"]))
-async def start_command(bot: Client, message: Message):
-    random_image_url = random.choice(image_urls)
-    caption = (
-        "𝐇𝐞𝐥𝐥𝐨 𝐃𝐞𝐚𝐫 👋!\n\n➠ 𝐈 𝐚𝐦 𝐚 𝐓𝐞𝐱𝐭 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭\n\n➠ Can Extract Videos & PDFs From Your Text File and Upload to Telegram!\n\n➠ For Guide Use Command /help 📖\n\n➠ 𝐌𝐚𝐝𝐞 𝐁𝐲 : 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎 🦁"
-    )
-
-    await bot.send_photo(
-        chat_id=message.chat.id,
-        photo=random_image_url,
-        caption=caption,
-        reply_markup=keyboard
-    )
-
 @bot.on_message(filters.private & filters.command(["info"]))
-async def info(bot: Client, update: Message):
-    
+async def info(bot: Client, update: Message):    
     text = (
         f"╭────────────────╮\n"
         f"│✨ **__Your Telegram Info__**✨ \n"
@@ -233,23 +202,18 @@ async def info(bot: Client, update: Message):
         f"├🔹**TG ID :** `{update.from_user.id}`\n"
         f"├🔹**Profile :** {update.from_user.mention}\n"
         f"╰────────────────╯"
-    )
-    
+    )    
     await update.reply_text(        
         text=text,
         disable_web_page_preview=True,
         reply_markup=BUTTONS
     )
-
 BUTTONS = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url=f"https://t.me/+-UUAslfhnugyZjZl")]])
-
 # /id Command - Show Group/Channel ID
 @bot.on_message(filters.command(["id"]))
 async def id_command(client, message: Message):
     chat_id = message.chat.id
     await message.reply_text(f"**ID : `{chat_id}`**\n\n")
-
-
 @bot.on_message(filters.command(["logs"]) )
 async def send_logs(bot: Client, m: Message):
     try:
@@ -259,7 +223,19 @@ async def send_logs(bot: Client, m: Message):
             await sent.delete(True)
     except Exception as e:
         await m.reply_text(f"Error sending logs: {e}")
-
+# Start command handler
+@bot.on_message(filters.command(["start"]))
+async def start_command(bot: Client, message: Message):
+    random_image_url = random.choice(image_urls)
+    caption = (
+        "𝐇𝐞𝐥𝐥𝐨 𝐃𝐞𝐚𝐫 👋!\n\n➠ 𝐈 𝐚𝐦 𝐚 𝐓𝐞𝐱𝐭 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭\n\n➠ Can Extract Videos & PDFs From Your Text File and Upload to Telegram!\n\n➠ For Guide Use Command /help 📖\n\n➠ 𝐌𝐚𝐝𝐞 𝐁𝐲 : 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎 🦁"
+    )
+    await bot.send_photo(
+        chat_id=message.chat.id,
+        photo=random_image_url,
+        caption=caption,
+        reply_markup=keyboard
+    )
 @bot.on_message(filters.command(["stop"]) )
 async def restart_handler(_, m):
     await m.reply_text("**ˢᵗᵒᵖᵖᵉᵈ ᵇᵃᵇʸ**", True)
