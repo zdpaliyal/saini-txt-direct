@@ -350,7 +350,7 @@ async def txt_handler(bot: Client, m: Message):
     except:
         arg = 1
 
-    await editable.edit(f"`🔹Starting from {raw_text}\n\n🔹Send till you want to download.`")
+    await editable.edit(f"`🔹Total 🔗 links found are {len(links)}\n\n🔹Starting from {raw_text}\n\n🔹Send till you want to download.`")
     inputend: Message = await bot.listen(editable.chat.id)
     raw_textend = inputend.text
     await inputend.delete(True)
