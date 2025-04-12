@@ -243,7 +243,7 @@ async def youtube_to_txt(client, message: Message):
     
 @bot.on_message(filters.command(["drm"]) )
 async def txt_handler(bot: Client, m: Message):
-    editable = await m.reply_text(f"<pre><code>🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the txt file and wait.</code></pre>")
+    editable = await m.reply_text(f"`🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the txt file and wait.`")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
@@ -274,7 +274,7 @@ async def txt_handler(bot: Client, m: Message):
                     video_count += 1
         os.remove(x)
     except:
-        await m.reply_text("<pre><code>🔹Invalid file input.</code></pre>")
+        await m.reply_text("`🔹Invalid file input.`")
         os.remove(x)
         return
    
@@ -292,7 +292,7 @@ async def txt_handler(bot: Client, m: Message):
     raw_textend = inputend.text
     await inputend.delete(True)
         
-    await editable.edit("<pre><code>Enter Your Batch Name\nSend 1 for use default.</code></pre>")
+    await editable.edit("`🔹Enter Your Batch Name\n🔹Send 1 for use default.`")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
@@ -301,7 +301,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         b_name = raw_text0
 
-    await editable.edit("<pre><code>Enter Your App Name.</code></pre>")
+    await editable.edit("`🔹Enter Your App Name.`")
     input5: Message = await bot.listen(editable.chat.id)
     a_name = input5.text
     await input5.delete(True)
@@ -329,7 +329,7 @@ async def txt_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
 
-    await editable.edit("<pre><code>Enter Your Name\nSend 1 for use default</code></pre>")
+    await editable.edit("`🔹Enter Your Name\n🔹Send 1 for use default`")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -342,15 +342,15 @@ async def txt_handler(bot: Client, m: Message):
     else:
         CR = credit
 
-    await editable.edit("<pre><code>Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋\nOtherwise Send Anything.</code></pre>")
+    await editable.edit("`🔹Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋\n🔹Otherwise Send Anything.`")
     input4: Message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
     await input4.delete(True)
             
-    await editable.edit(f"01. 🌅Send ☞ Direct **Thumb Photo**\n\n"
-                        f"02. 🔗Send ☞ `Thumb URL` for **Thumbnail**\n\n"
-                        f"03. 🎞️Send ☞ `no` for **video** format\n\n"
-                        f"04. 📁Send ☞ `No` for **Document** format")
+    await editable.edit(f"`🔹Send ☞ Direct Thumb Photo\n"
+                        f"🔹Send ☞ Thumb URL for Thumbnail\n"
+                        f"🔹Send ☞ no for video format\n"
+                        f"🔹Send ☞ No for Document format`")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
@@ -366,7 +366,7 @@ async def txt_handler(bot: Client, m: Message):
         thumb = raw_text6
 
     await m.reply_text(
-        f"<pre><code>🎯Target Batch : {b_name}</code></pre>"
+        f"`🎯Target Batch : {b_name}`"
     )
 
     end =int(raw_textend)
@@ -432,9 +432,7 @@ async def txt_handler(bot: Client, m: Message):
             try:  
                 cc = f'•——— `{a_name}` ———•\n\n[——— ✨ {str(count).zfill(3)} ✨ ———]({link0})\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1} [{res}] .mp4`\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                 cc1 = f'•——— `{a_name}` ———•\n\n[——— ✨ {str(count).zfill(3)} ✨ ———]({link0})\n\n📕𝐓𝐢𝐭𝐥𝐞 » `{name1} .pdf`\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
-                cczip = f'•——— `{a_name}` ———•\n\n[——— ✨ {str(count).zfill(3)} ✨ ———]({link0})\n\n📁𝐓𝐢𝐭𝐥𝐞 » `{name1} .zip`\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'  
                 ccimg = f'•——— `{a_name}` ———•\n\n[——— ✨ {str(count).zfill(3)} ✨ ———]({link0})\n\n🖼️𝐓𝐢𝐭𝐥𝐞 » `{name1} .jpg`\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
-                cccpvod = f'•——— `{a_name}` ———•\n\n[——— ✨ {str(count).zfill(3)} ✨ ———]({link0})\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1} .mp4`\n\n<a href="{urlcpvod}">__**Click Here to Watch Stream**__</a>\n🔗𝐋𝐢𝐧𝐤 » {link0}\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                 ccyt = f'•——— `{a_name}` ———•\n\n[——— ✨ {str(count).zfill(3)} ✨ ———]({link0})\n\n🎞️𝐓𝐢𝐭𝐥𝐞 » `{name1} .mp4`\n\n<a href="{url}">__**Click Here to Watch Stream**__</a>\n\n<pre><code>📚 Course : {b_name}</code></pre>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CR}`\n'
                                  
                 if "drive" in url:
@@ -501,20 +499,6 @@ async def txt_handler(bot: Client, m: Message):
                         count += 1
                         continue
 
-                elif ".zip" in url:
-                    try:
-                        cmd = f'yt-dlp -o "{name}.zip" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.zip', caption=cczip)
-                        count += 1
-                        os.remove(f'{name}.zip')
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        count += 1
-                        continue
-
                 elif any(ext in url for ext in [".jpg", ".jpeg", ".png"]):
                     try:
                         ext = url.split('.')[-1]
@@ -529,15 +513,6 @@ async def txt_handler(bot: Client, m: Message):
                         time.sleep(e.x)
                         count += 1
                         continue 
-
-                elif "cpvod.testbook.com" in url:
-                    try:
-                        await bot.send_photo(chat_id=m.chat.id, photo=photologo, caption=cccpvod)
-                        count +=1
-                    except Exception as e:
-                        await m.reply_text(str(e))    
-                        time.sleep(1)    
-                        continue          
 
                 elif "youtu" in url:
                     try:
@@ -586,23 +561,24 @@ async def txt_handler(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(e)
     await m.reply_text(f"`✨𝙱𝚊𝚝𝚌𝚑 𝚂𝚞𝚖𝚖𝚊𝚛𝚢✨\n"
-                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"━━━━━━━━━━━━━━━━━━━━\n"
                        f"🔢𝙸𝚗𝚍𝚎𝚡 𝚁𝚊𝚗𝚐𝚎 » {raw_text} ➠ {end}\n"
                        f"📚𝙱𝚊𝚝𝚌𝚑 𝙽𝚊𝚖𝚎 » {b_name}\n"
-                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"━━━━━━━━━━━━━━━━━━━━\n"
                        f"✨𝚃𝚡𝚝 𝚂𝚞𝚖𝚖𝚊𝚛𝚢✨ : {len(links)}\n"
-                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"━━━━━━━━━━━━━━━━━━━━\n"
                        f"🔹𝚉𝙸𝙿 » {zip_count}  🔹𝙿𝙳𝙵 » {pdf_count}\n"
                        f"🔹𝙸𝚖𝚐 » {img_count}  🔹𝚅𝚒𝚍𝚎𝚘 » {video_count}\n"
-                       f"▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
+                       f"━━━━━━━━━━━━━━━━━━━━\n"
                        f"🔹𝙵𝚊𝚒𝚕𝚎𝚍 𝙻𝚒𝚗𝚔𝚜 » {failed_count}\n"
-                       f"✅𝚂𝚝𝚊𝚝𝚞𝚜 » 𝙲𝚘𝚖𝚙𝚕𝚎𝚝𝚎𝚍`")
-    await m.reply_text("<pre><code>Downloaded By ⌈✨『𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎』✨⌋</code></pre>")
-
+                       f"✅𝚂𝚝𝚊𝚝𝚞𝚜 » 𝙲𝚘𝚖𝚙𝚕𝚎𝚝𝚎𝚍\n"
+                       f"━━━━━━━━━━━━━━━━━━━━\n"
+                       f"✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ `𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦`")
+    
 
 @bot.on_message(filters.command(["cp"]) )
 async def txt_handler(bot: Client, m: Message):
-    editable = await m.reply_text(f"<pre><code>🔹Hi I am Poweful CP stream📥 Bot.\n🔹Send me the TXT file and wait.</code></pre>")
+    editable = await m.reply_text(f"`🔹Hi I am Poweful CP stream📥 Bot.\n🔹Send me the TXT file and wait.`")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
@@ -621,7 +597,7 @@ async def txt_handler(bot: Client, m: Message):
         os.remove(x)
         return
 
-    await editable.edit(f"<pre><code>Total 🔗 links found are {len(links)}\nSend From where you want to stream</code></pre>")
+    await editable.edit(f"`🔹Total 🔗 links found are {len(links)}\n🔹Send From where you want to stream`")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
@@ -633,7 +609,7 @@ async def txt_handler(bot: Client, m: Message):
     await editable.delete(True)
     b_name = file_name
     await m.reply_text(
-        f"<pre>🎯Target Batch : {b_name}</pre>")  
+        f"`🎯Target Batch : {b_name}`")  
     
     arg = int(raw_text)
     count = int(raw_text)
@@ -741,12 +717,12 @@ async def text_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
           
-    await editable.edit("<pre><code>Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋\nOtherwise send anything</code></pre>")
+    await editable.edit("`🔹Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋\n🔹Otherwise send anything`")
     input4: Message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
     raw_text4 = input4.text
     await input4.delete(True)
     
-    await editable.edit("🌅Send ☞ `Thumb URL` for **Thumbnail**\n\n🎞️Send ☞ `no` for **video** format\n\n📁Send ☞ `No` for **Document** format")
+    await editable.edit("`🔹Send ☞ Thumb URL for Thumbnail\n🔹Send ☞ no for video format\n🔹Send ☞ No for Document format`")
     input6 = message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
     raw_text6 = input6.text
     await input6.delete(True)
@@ -832,9 +808,7 @@ async def text_handler(bot: Client, m: Message):
             try:
                 cc = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` [{res}].mp4\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎`'
                 cc1 = f'📕𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎`'
-                ccyt = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` .mp4\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**Click Here to Watch Stream**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎`'
-                cccpvod = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name}` .mp4\n<a href="{linkcpvod}">__**Click Here to Watch Stream**__</a>\n🔗𝐋𝐢𝐧𝐤 » {link}\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎`'
-                
+                                
                 if "drive" in url:
                     try:
                         ka = await helper.download(url, name)
@@ -906,38 +880,6 @@ async def text_handler(bot: Client, m: Message):
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
                         count += 1
                         os.remove(f'{name}.pdf')
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        count += 1
-                        pass    
-
-                elif "cpvod.testbook.com" in url:
-                    try:
-                        await bot.send_photo(chat_id=m.chat.id, photo=photologo, caption=cccpvod)
-                        count +=1
-                    except Exception as e:
-                        await m.reply_text(str(e))    
-                        time.sleep(1)    
-                        pass          
-
-                #elif "youtu" in url:
-                    #try:
-                        #await bot.send_photo(chat_id=m.chat.id, photo=photoyt, caption=ccyt)
-                        #count +=1
-                    #except Exception as e:
-                        #await m.reply_text(str(e))    
-                        #time.sleep(1)    
-                        #pass
-
-                elif ".zip" in url:
-                    try:
-                        cmd = f'yt-dlp -o "{name}.zip" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.zip', caption=cc1)
-                        count += 1
-                        os.remove(f'{name}.zip')
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
