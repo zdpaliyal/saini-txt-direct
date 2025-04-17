@@ -11,9 +11,6 @@
   "logo": "https://github.com/nikhilsainiop/saini-txt-direct/blob/main/SAINIBOTSLOGO.svg",
   "success_url": "/welcome",
   "stack": "heroku-24",
-  "scripts": {
-    "postdeploy": "bundle exec rake bootstrap"
-  },
   "env": {
         "API_ID": {
             "description": "𝑬𝒏𝒕𝒆𝒓 𝒀𝒐𝒖𝒓 𝑨𝒑𝒊 𝑰𝑫",
@@ -32,7 +29,6 @@
             "required": true
         }
    },
-  "image": "heroku/python",
   "addons": [],
   "buildpacks": [
     {
@@ -42,11 +38,4 @@
       "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
     }
   ],
-  "environments": {
-    "test": {
-      "scripts": {
-        "test": "bundle exec rake test"
-      }
-    }
-  }
 }
