@@ -29,6 +29,7 @@
             "required": true
         }
    },
+  "image": "heroku/python",
   "addons": [],
   "buildpacks": [
     {
@@ -38,4 +39,11 @@
       "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
     }
   ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rake test"
+      }
+    }
+  }
 }
