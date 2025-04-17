@@ -937,5 +937,3 @@ async def text_handler(bot: Client, m: Message):
         await m.reply_text(e)   
                      
 bot.run()
-if __name__ == "__main__":
-    asyncio.run(main())
