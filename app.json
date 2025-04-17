@@ -8,7 +8,7 @@
   ],
   "website": "https://github.com/nikhilsainiop/",
   "repository": "https://github.com/nikhilsainiop/Saini-txt-direct",
-  "logo": "https://small-sharp-tool.com/logo.svg",
+  "logo": "https://github.com/nikhilsainiop/saini-txt-direct/blob/main/SAINIBOTSLOGO.svg",
   "success_url": "/welcome",
   "stack": "heroku-24",
   "scripts": {
