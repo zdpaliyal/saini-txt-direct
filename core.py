@@ -1,5 +1,7 @@
 import os
+import re
 import time
+import mmap
 import datetime
 import aiohttp
 import aiofiles
@@ -9,14 +11,58 @@ import requests
 import tgcrypto
 import subprocess
 import concurrent.futures
-
+from math import ceil
 from utils import progress_bar
-
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from io import BytesIO
+from pathlib import Path  
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+from base64 import b64decode
 
 
 
+# Same AES Key aur IV jo encryption ke liye use kiya tha
+KEY = b'^#^#&@*HDU@&@*()'   
+IV = b'^@%#&*NSHUE&$*#)'   
+
+# Decryption function
+def dec_url(enc_url):
+    enc_url = enc_url.replace("helper://", "")  # "helper://" prefix hatao
+    cipher = AES.new(KEY, AES.MODE_CBC, IV)
+    decrypted = unpad(cipher.decrypt(b64decode(enc_url)), AES.block_size)
+    return decrypted.decode('utf-8')
+
+# Function to split name & Encrypted URL properly
+def split_name_enc_url(line):
+    match = re.search(r"(helper://\S+)", line)  # Find `helper://` ke baad ka encrypted URL
+    if match:
+        name = line[:match.start()].strip().rstrip(":")  # Encrypted URL se pehle ka text
+        enc_url = match.group(1).strip()  # Sirf Encrypted URL
+        return name, enc_url
+    return line.strip(), None  # Agar encrypted URL nahi mila, to pura line name maan lo
+
+# Function to decrypt file URLs
+def decrypt_file_txt(input_file):
+    output_file = "decrypted_" + input_file  # Output file ka naam
+
+    # Ensure the directory exists
+    output_dir = os.path.dirname(output_file)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    with open(input_file, "r", encoding="utf-8") as f, open(output_file, "w", encoding="utf-8") as out:
+        for line in f:
+            name, enc_url = split_name_enc_url(line)  # Sahi tarike se name aur encrypted URL split karo
+            if enc_url:
+                dec = dec_url(enc_url)  # Decrypt URL
+                out.write(f"{name}: {dec}\n")  # Ek hi `:` likho
+            else:
+                out.write(line.strip() + "\n")  # Agar encrypted URL nahi mila to line jaisa hai waisa likho
+
+    return output_file   # Decrypted file ka naam return karega
+   
 def duration(filename):
     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                              "format=duration", "-of",
@@ -24,7 +70,14 @@ def duration(filename):
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT)
     return float(result.stdout)
-    
+
+def get_mps_and_keys(api_url):
+    response = requests.get(api_url)
+    response_json = response.json()
+    mpd = response_json.get('MPD')
+    keys = response_json.get('KEYS')
+    return mpd, keys
+   
 def exec(cmd):
         process = subprocess.run(cmd, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         output = process.stdout.decode()
@@ -56,7 +109,16 @@ async def download(url,name):
                 await f.close()
     return ka
 
-
+async def pdf_download(url, file_name, chunk_size=1024 * 10):
+    if os.path.exists(file_name):
+        os.remove(file_name)
+    r = requests.get(url, allow_redirects=True, stream=True)
+    with open(file_name, 'wb') as fd:
+        for chunk in r.iter_content(chunk_size=chunk_size):
+            if chunk:
+                fd.write(chunk)
+    return file_name   
+   
 
 def parse_vid_info(info):
     info = info.strip()
@@ -105,6 +167,64 @@ def vid_info(info):
                 pass
     return new_info
 
+
+async def decrypt_and_merge_video(mpd_url, keys_string, output_path, output_name, quality="720"):
+    try:
+        output_path = Path(output_path)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        cmd1 = f'yt-dlp -f "bv[height<={quality}]+ba/b" -o "{output_path}/file.%(ext)s" --allow-unplayable-format --no-check-certificate --external-downloader aria2c "{mpd_url}"'
+        print(f"Running command: {cmd1}")
+        os.system(cmd1)
+        
+        avDir = list(output_path.iterdir())
+        print(f"Downloaded files: {avDir}")
+        print("Decrypting")
+
+        video_decrypted = False
+        audio_decrypted = False
+
+        for data in avDir:
+            if data.suffix == ".mp4" and not video_decrypted:
+                cmd2 = f'mp4decrypt {keys_string} --show-progress "{data}" "{output_path}/video.mp4"'
+                print(f"Running command: {cmd2}")
+                os.system(cmd2)
+                if (output_path / "video.mp4").exists():
+                    video_decrypted = True
+                data.unlink()
+            elif data.suffix == ".m4a" and not audio_decrypted:
+                cmd3 = f'mp4decrypt {keys_string} --show-progress "{data}" "{output_path}/audio.m4a"'
+                print(f"Running command: {cmd3}")
+                os.system(cmd3)
+                if (output_path / "audio.m4a").exists():
+                    audio_decrypted = True
+                data.unlink()
+
+        if not video_decrypted or not audio_decrypted:
+            raise FileNotFoundError("Decryption failed: video or audio file not found.")
+
+        cmd4 = f'ffmpeg -i "{output_path}/video.mp4" -i "{output_path}/audio.m4a" -c copy "{output_path}/{output_name}.mp4"'
+        print(f"Running command: {cmd4}")
+        os.system(cmd4)
+        if (output_path / "video.mp4").exists():
+            (output_path / "video.mp4").unlink()
+        if (output_path / "audio.m4a").exists():
+            (output_path / "audio.m4a").unlink()
+        
+        filename = output_path / f"{output_name}.mp4"
+
+        if not filename.exists():
+            raise FileNotFoundError("Merged video file not found.")
+
+        cmd5 = f'ffmpeg -i "{filename}" 2>&1 | grep "Duration"'
+        duration_info = os.popen(cmd5).read()
+        print(f"Duration info: {duration_info}")
+
+        return str(filename)
+
+    except Exception as e:
+        print(f"Error during decryption and merging: {str(e)}")
+        raise
 
 async def run(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -179,11 +299,11 @@ async def download_video(url,cmd, name):
         return os.path.isfile.splitext[0] + "." + "mp4"
 
 
-async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
-    reply = await m.reply_text(f"<pre><code>Uploading » `{name}`</code></pre>")
+async def send_doc(bot: Client, m: Message, cc, ka, cc1, prog, count, name, channel_id):
+    reply = await m.reply_text(f"**★彡 ᵘᵖˡᵒᵃᵈⁱⁿᵍ 彡★ ...⏳**\n\n📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦")
     time.sleep(1)
     start_time = time.time()
-    await m.reply_document(ka,caption=cc1)
+    await bot.send_document(ka, caption=cc1)
     count+=1
     await reply.delete (True)
     time.sleep(1)
@@ -191,12 +311,35 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     time.sleep(3) 
 
 
+def decrypt_file(file_path, key):  
+    if not os.path.exists(file_path): 
+        return False  
+
+    with open(file_path, "r+b") as f:  
+        num_bytes = min(28, os.path.getsize(file_path))  
+        with mmap.mmap(f.fileno(), length=num_bytes, access=mmap.ACCESS_WRITE) as mmapped_file:  
+            for i in range(num_bytes):  
+                mmapped_file[i] ^= ord(key[i]) if i < len(key) else i 
+    return True  
+
+async def download_and_decrypt_video(url, cmd, name, key):  
+    video_path = await download_video(url, cmd, name)  
+    
+    if video_path:  
+        decrypted = decrypt_file(video_path, key)  
+        if decrypted:  
+            print(f"File {video_path} decrypted successfully.")  
+            return video_path  
+        else:  
+            print(f"Failed to decrypt {video_path}.")  
+            return None  
+
 async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
-    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
+    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:10 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
     reply = await m.reply_text(f"**★彡 ᵘᵖˡᵒᵃᵈⁱⁿᵍ 彡★ ...⏳**\n\n📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🦁")
     try:
-        if thumb == "no":
+        if thumb == "/d":
             thumbnail = f"{filename}.jpg"
         else:
             thumbnail = thumb

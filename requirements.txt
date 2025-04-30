@@ -9,6 +9,7 @@ pyrogram
 pyromod==1.5
 PySocks==1.7.1
 python-dotenv==1.0.0
+python-telegram-bot==20.3
 requests==2.31.0
 soupsieve==2.4.1
 TgCrypto==1.2.5
@@ -16,10 +17,12 @@ urllib3==2.0.3
 websockets==11.0.3
 yt-dlp==2025.02.19
 motor
+pytz
 aiohttp
 aiofiles
 pytz
-ffmpeg
+pillow
+m3u8
 umongo==3.1.0
 speedtest-cli
 Flask==1.1.2
@@ -30,7 +33,6 @@ itsdangerous==2.0.1
 ffmpeg
 youtube-dl
 cloudscraper
-pytube
 cryptography
 PyJWT
 sqlalchemy
@@ -38,3 +40,10 @@ pyopenssl
 wget
 bs4
 beautifulsoup4
+reportlab
+pytube
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+ffmpeg-python
