@@ -470,8 +470,8 @@ async def txt_handler(bot: Client, m: Message):
                                                         
             elif "d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
                 vid_id =  url.split('/')[-2]
-                #url = f"https://anonymouspwplayer-b99f57957198.herokuapp.com/pw?url={url}?token={raw_text4}"
-                url =  f"{api_url}pw-dl?url={url}&token={raw_text4}&authorization={api_token}&q={raw_text2}"
+                url = f"https://anonymouspwplayer-b99f57957198.herokuapp.com/pw?url={url}?token={raw_text4}"
+                #url =  f"{api_url}pw-dl?url={url}&token={raw_text4}&authorization={api_token}&q={raw_text2}"
                 #url = f"https://dl.alphacbse.site/download/{vid_id}/master.m3u8"
 
             if "pdf*" in url:
@@ -509,11 +509,9 @@ async def txt_handler(bot: Client, m: Message):
                             
                   
                 if "drive" in url:
-                    reply = await m.reply_text(f"__**⚡️ Pdf Downloading...⏳**__\n`{str(count).zfill(3)}) {name}`")
                     ka = await helper.download(url, name)
                     time.sleep(1)
                     copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
-                    await reply.delete (True)
                     count+=1
                     os.remove(ka)
                     time.sleep(1)
@@ -522,18 +520,15 @@ async def txt_handler(bot: Client, m: Message):
                   
                 elif ".pdf" in url:
                     if ".pdf*" in url:
-                        reply = await m.reply_text(f"__**⚡️ Pdf Downloading...⏳**__\n`{str(count).zfill(3)}) {name}`")
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
                         os.system(download_cmd)
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                        await reply.delete (True)
                         count += 1
                         os.remove(f'{name}.pdf')
                         time.sleep(e.x)
                         continue 
                     else:
-                        reply = await m.reply_text(f"__**⚡️ Pdf Downloading...⏳**__\n`{str(count).zfill(3)}) {name}`")
                         await asyncio.sleep(4)
                         url = url.replace(" ", "%20")
                         scraper = cloudscraper.create_scraper()
@@ -544,7 +539,6 @@ async def txt_handler(bot: Client, m: Message):
                             await asyncio.sleep(4)
                             time.sleep(1) 
                             copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
-                            await reply.delete (True)
                             count += 1
                             os.remove(f'{name}.pdf')
                             time.sleep(1)
