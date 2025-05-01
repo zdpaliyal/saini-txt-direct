@@ -517,45 +517,30 @@ async def txt_handler(bot: Client, m: Message):
                     continue
 
                 elif ".pdf" in url:
-                    try:
-                        if ".pdf*" in url:
-                            cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                            download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                            os.system(download_cmd)
-                            copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                    if "pdf*" in url:
+                        pdf_key = url.split('*')[1]
+                        url = url.split('*')[0]
+                        pdf_enc = await helper.download_and_decrypt_pdf(url, name, pdf_key)
+                        copy = await bot.send_document(chat_id=m.chat.id, document=pdf_enc, caption=cc1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                        count += 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                        os.remove(pdf_enc)
+                        continue
+                        
+                    else:
+                        await asyncio.sleep(2)
+                        url = url.replace(" ", "%20")
+                        scraper = cloudscraper.create_scraper()
+                        response = scraper.get(url)
+                        if response.status_code == 200:
+                            with open(f'{name}.pdf', 'wb') as file:
+                                file.write(response.content)
+                            await asyncio.sleep(2)
+                            time.sleep(1) 
+                            copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
                             count += 1
                             os.remove(f'{name}.pdf')
-                            time.sleep(2)
-                            continue 
-                      
-                        elif "cwmediabkt99" in url:
-                            await asyncio.sleep(4)
-                            url = url.replace(" ", "%20")
-                            scraper = cloudscraper.create_scraper()
-                            response = scraper.get(url)
-                            if response.status_code == 200:
-                                with open(f'{name}.pdf', 'wb') as file:
-                                     file.write(response.content)
-                                 await asyncio.sleep(4)
-                                time.sleep(1) 
-                                copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
-                                count += 1
-                                os.remove(f'{name}.pdf')
-                                time.sleep(1)
-                                continue 
-                            
-                        else:
-                            cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                            download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                            os.system(download_cmd)
-                            copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                            count +=1
-                            os.remove(f'{name}.pdf')
-                      
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue  
+                            time.sleep(1)
+                            continue  
 
                 elif ".ws" in url and  url.endswith(".ws"):
                     await helper.pdf_download(f"{api_url}utkash-ws?url={url}&authorization={api_token}",f"{name}.html")
