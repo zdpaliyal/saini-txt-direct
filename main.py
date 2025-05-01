@@ -605,8 +605,8 @@ async def txt_handler(bot: Client, m: Message):
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.download_and_decrypt_video(url, cmd, name, appxkey)  
                     filename = res_file  
-                    await prog.delete(True)  
                     await emoji_message.delete()
+                    await prog.delete(True)  
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)  
                     count += 1  
                     await asyncio.sleep(1)  
@@ -634,8 +634,8 @@ async def txt_handler(bot: Client, m: Message):
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
                     filename = res_file
-                    await prog.delete(True)
                     await emoji_message.delete()
+                    await prog.delete(True)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     await asyncio.sleep(1)
@@ -663,8 +663,8 @@ async def txt_handler(bot: Client, m: Message):
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
-                    await prog.delete(True)
                     await emoji_message.delete()
+                    await prog.delete(True)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     time.sleep(1)
