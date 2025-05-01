@@ -2,6 +2,8 @@
 
 Welcome to DRM bot made by @nikhil.saini.khe (Instagram)
 
+Note: CP DRM SUPPORTED MINIMUM QUALITY 360
+
 > **command**
 
 > /start start the bot.  
