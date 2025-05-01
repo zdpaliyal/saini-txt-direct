@@ -679,6 +679,6 @@ async def txt_handler(bot: Client, m: Message):
         await m.reply_text(e)
         time.sleep(2)
         
-    await m.reply_text(f"⋅ ─ list index ({raw_text}-{len(links)}) out of range ─ ⋅\n\n✨ BATCH » {b_name}✨\n\n⋅ ─ DOWNLOADING ✩ COMPLETED ─ ⋅")
+    await m.reply_text(f"⋅ ─ list index ({raw_text}-{len(links)}) out of range ─ ⋅\n\n✨ BATCH » `{b_name}✨`\n\n⋅ ─ DOWNLOADING ✩ COMPLETED ─ ⋅")
              
 bot.run()
