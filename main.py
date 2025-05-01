@@ -510,15 +510,22 @@ async def txt_handler(bot: Client, m: Message):
                   
                 if "drive" in url:
                     ka = await helper.download(url, name)
-                    time.sleep(1)
                     copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
                     count+=1
                     os.remove(ka)
                     time.sleep(1)
                     continue
 
-                  
-                if ".pdf" in url:
+                elif ".pdf*" in url:
+                    cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
+                    download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+                    os.system(download_cmd)
+                    copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                    count += 1
+                    os.remove(f'{name}.pdf')
+                    continue
+
+                elif "cwmediabkt99" in url:
                     await asyncio.sleep(4)
                     url = url.replace(" ", "%20")
                     scraper = cloudscraper.create_scraper()
@@ -526,13 +533,22 @@ async def txt_handler(bot: Client, m: Message):
                     if response.status_code == 200:
                         with open(f'{name}.pdf', 'wb') as file:
                             file.write(response.content)
-                       await asyncio.sleep(4)
-                       time.sleep(1) 
-                       copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
-                       count += 1
-                       os.remove(f'{name}.pdf')
-                       time.sleep(1)
-                       continue 
+                        await asyncio.sleep(4)
+                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                        count += 1
+                        os.remove(f'{name}.pdf')
+                    else:
+                        await m.reply_text(f"Failed to download PDF: {response.status_code} {response.reason}")
+                    continue
+
+                elif ".pdf" in url:
+                    cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
+                    download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+                    os.system(download_cmd)
+                    copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                    count += 1
+                    os.remove(f'{name}.pdf')
+                    continue     
 
                 elif ".ws" in url and  url.endswith(".ws"):
                     await helper.pdf_download(f"{api_url}utkash-ws?url={url}&authorization={api_token}",f"{name}.html")
