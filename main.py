@@ -525,7 +525,7 @@ async def txt_handler(bot: Client, m: Message):
                             copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
                             count += 1
                             os.remove(f'{name}.pdf')
-                            time.sleep(e.x)
+                            time.sleep(2)
                             continue 
                       
                         elif "cwmediabkt99" in url:
@@ -540,9 +540,9 @@ async def txt_handler(bot: Client, m: Message):
                                 time.sleep(1) 
                                 copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
                                 count += 1
-                                 os.remove(f'{name}.pdf')
+                                os.remove(f'{name}.pdf')
                                 time.sleep(1)
-                                 continue 
+                                continue 
                             
                         else:
                             cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
