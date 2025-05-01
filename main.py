@@ -518,31 +518,21 @@ async def txt_handler(bot: Client, m: Message):
                     continue
 
                   
-                elif ".pdf" in url:
-                    if ".pdf*" in url:
-                        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                        count += 1
-                        os.remove(f'{name}.pdf')
-                        time.sleep(e.x)
-                        continue 
-                    else:
-                        await asyncio.sleep(4)
-                        url = url.replace(" ", "%20")
-                        scraper = cloudscraper.create_scraper()
-                        response = scraper.get(url)
-                        if response.status_code == 200:
-                            with open(f'{name}.pdf', 'wb') as file:
-                                file.write(response.content)
-                            await asyncio.sleep(4)
-                            time.sleep(1) 
-                            copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
-                            count += 1
-                            os.remove(f'{name}.pdf')
-                            time.sleep(1)
-                            continue 
+                if ".pdf" in url:
+                    await asyncio.sleep(4)
+                    url = url.replace(" ", "%20")
+                    scraper = cloudscraper.create_scraper()
+                    response = scraper.get(url)
+                    if response.status_code == 200:
+                        with open(f'{name}.pdf', 'wb') as file:
+                            file.write(response.content)
+                       await asyncio.sleep(4)
+                       time.sleep(1) 
+                       copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
+                       count += 1
+                       os.remove(f'{name}.pdf')
+                       time.sleep(1)
+                       continue 
 
                 elif ".ws" in url and  url.endswith(".ws"):
                     await helper.pdf_download(f"{api_url}utkash-ws?url={url}&authorization={api_token}",f"{name}.html")
@@ -588,20 +578,20 @@ async def txt_handler(bot: Client, m: Message):
                     progress = (count / len(links)) * 100
                     emoji_message = await show_random_emojis(message)
                     Show = f"🚀𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬 » {progress:.2f}%\n┃\n" \
-                               f"┣🔗𝐈𝐧𝐝𝐞𝐱 » {count}/{len(links)}\n┃\n" \
-                               f"╰━🖇️𝐑𝐞𝐦𝐚𝐢𝐧 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}\n" \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
-                               f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
-                               f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
-                               f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
-                               f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
-                               f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"🛑**Send** /stop **to stop process**\n┃\n" \
-                               f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
+                           f"┣🔗𝐈𝐧𝐝𝐞𝐱 » {count}/{len(links)}\n┃\n" \
+                           f"╰━🖇️𝐑𝐞𝐦𝐚𝐢𝐧 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
+                           f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
+                           f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
+                           f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
+                           f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
+                           f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"🛑**Send** /stop **to stop process**\n┃\n" \
+                           f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.download_and_decrypt_video(url, cmd, name, appxkey)  
                     filename = res_file  
@@ -617,20 +607,20 @@ async def txt_handler(bot: Client, m: Message):
                     progress = (count / len(links)) * 100
                     emoji_message = await show_random_emojis(message)
                     Show = f"🚀𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬 » {progress:.2f}%\n┃\n" \
-                               f"┣🔗𝐈𝐧𝐝𝐞𝐱 » {count}/{len(links)}\n┃\n" \
-                               f"╰━🖇️𝐑𝐞𝐦𝐚𝐢𝐧 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}\n" \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
-                               f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
-                               f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
-                               f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
-                               f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
-                               f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"🛑**Send** /stop **to stop process**\n┃\n" \
-                               f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
+                           f"┣🔗𝐈𝐧𝐝𝐞𝐱 » {count}/{len(links)}\n┃\n" \
+                           f"╰━🖇️𝐑𝐞𝐦𝐚𝐢𝐧 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
+                           f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
+                           f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
+                           f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
+                           f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
+                           f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"🛑**Send** /stop **to stop process**\n┃\n" \
+                           f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
                     filename = res_file
@@ -646,20 +636,20 @@ async def txt_handler(bot: Client, m: Message):
                     progress = (count / len(links)) * 100
                     emoji_message = await show_random_emojis(message)
                     Show = f"🚀𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬 » {progress:.2f}%\n┃\n" \
-                               f"┣🔗𝐈𝐧𝐝𝐞𝐱 » {count}/{len(links)}\n┃\n" \
-                               f"╰━🖇️𝐑𝐞𝐦𝐚𝐢𝐧 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}\n" \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
-                               f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
-                               f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
-                               f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
-                               f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
-                               f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
-                               f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
-                               f"🛑**Send** /stop **to stop process**\n┃\n" \
-                               f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
+                           f"┣🔗𝐈𝐧𝐝𝐞𝐱 » {count}/{len(links)}\n┃\n" \
+                           f"╰━🖇️𝐑𝐞𝐦𝐚𝐢𝐧 𝐋𝐢𝐧𝐤𝐬 » {remaining_links}\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
+                           f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
+                           f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
+                           f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
+                           f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
+                           f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"🛑**Send** /stop **to stop process**\n┃\n" \
+                           f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -678,7 +668,9 @@ async def txt_handler(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(e)
         time.sleep(2)
-        
+
+    await m.reply_text(f"⋅ ─ Total failed links is {failed_count} ─ ⋅")
+
     await m.reply_text(f"⋅ ─ list index ({raw_text}-{len(links)}) out of range ─ ⋅\n\n✨ BATCH » `{b_name}✨`\n\n⋅ ─ DOWNLOADING ✩ COMPLETED ─ ⋅")
              
 bot.run()
