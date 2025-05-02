@@ -531,7 +531,7 @@ async def txt_handler(bot: Client, m: Message):
                         count += 1
                         continue    
 
-                elif ".pdf" in url:
+                elif ".pdf" in url and not ".pdf*" in url:
                     try:
                         await asyncio.sleep(4)
                         url = url.replace(" ", "%20")
