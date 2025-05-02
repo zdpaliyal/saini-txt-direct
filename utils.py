@@ -74,7 +74,7 @@ async def progress_bar(current, total, reply, start):
         else:
             perc = f"{current * 100 / total:.1f}%"
             elapsed_time = round(diff)
-            speed = current*3 / elapsed_time
+            speed = current / elapsed_time
             remaining_bytes = total - current
             if speed > 0:
                 eta_seconds = remaining_bytes / speed
@@ -90,6 +90,11 @@ async def progress_bar(current, total, reply, start):
 
             symbol_pairs = [
                 ("▬", "▭"),
+                ("✅", "☑️"),
+                ("🐬", "🦈"),
+                ("🌜", "🌛"),
+                ("💚", "💛"),
+                ("🌟", "⭐"),
                 ("▰", "▱")
             ]
             chosen_pair = random.choice(symbol_pairs)
