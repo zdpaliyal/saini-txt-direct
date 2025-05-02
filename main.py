@@ -539,10 +539,12 @@ async def txt_handler(bot: Client, m: Message):
                             await asyncio.sleep(2)
                             time.sleep(1) 
                             copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)         
-                            count += 1
                             os.remove(f'{name}.pdf')
-                            time.sleep(1)
-                            continue  
+                        else:
+                            await m.reply_text(f"Failed to download PDF: {response.status_code} {response.reason}")
+                        count += 1
+                        time.sleep(1)
+                        continue  
 
                 elif ".ws" in url and  url.endswith(".ws"):
                     await helper.pdf_download(f"{api_url}utkash-ws?url={url}&authorization={api_token}",f"{name}.html")
