@@ -482,6 +482,8 @@ async def txt_handler(bot: Client, m: Message):
                 #url = "https://sr-get-video-quality.selav29696.workers.dev/?Vurl=" + "https://d1d34p8vz63oiq.cloudfront.net/" + id + f"/hls/{raw_text2}/main.m3u8" + policy
                 #print(url)
 
+            if ".pdf*" in url:
+                url = f"https://dragoapi.vercel.app/pdf/{url}"
             if ".zip" in url:
                 url = f"https://video.pablocoder.eu.org/appx-zip?url={url}"
                 
@@ -523,42 +525,42 @@ async def txt_handler(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue    
-
-                elif ".pdf*" in url:
-                    try:
-                        url = f"https://dragoapi.vercel.app/pdf/{url}"
-                        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                        count += 1
-                        os.remove(f'{name}.pdf')
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue    
-
-                elif ".pdf" in url and not ".pdf*" in url:
-                    try:
-                        await asyncio.sleep(4)
-                        url = url.replace(" ", "%20")
-                        scraper = cloudscraper.create_scraper()
-                        response = scraper.get(url)
-                        if response.status_code == 200:
-                            with open(f'{name}.pdf', 'wb') as file:
-                                file.write(response.content)
+  
+                elif ".pdf" in url:
+                    if "cwmediabkt99" in url:
+                        try:
                             await asyncio.sleep(4)
+                            url = url.replace(" ", "%20")
+                            scraper = cloudscraper.create_scraper()
+                            response = scraper.get(url)
+                            if response.status_code == 200:
+                                with open(f'{name}.pdf', 'wb') as file:
+                                    file.write(response.content)
+                                await asyncio.sleep(4)
+                                copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                                count += 1
+                                os.remove(f'{name}.pdf')
+                            else:
+                                await m.reply_text(f"Failed to download PDF: {response.status_code} {response.reason}")
+                                count += 1
+                                failed_count += 1
+                        except FloodWait as e:
+                            await m.reply_text(str(e))
+                            time.sleep(e.x)
+                            continue        
+
+                    else:
+                        try:
+                            cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
+                            download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+                            os.system(download_cmd)
                             copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
                             count += 1
                             os.remove(f'{name}.pdf')
-                        else:
-                            await m.reply_text(f"Failed to download PDF: {response.status_code} {response.reason}")
-                            count += 1
-                            failed_count += 1
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue              
+                        except FloodWait as e:
+                            await m.reply_text(str(e))
+                            time.sleep(e.x)
+                            continue    
 
                 elif ".ws" in url and  url.endswith(".ws"):
                     try:
