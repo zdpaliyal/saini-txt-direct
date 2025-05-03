@@ -528,27 +528,37 @@ async def txt_handler(bot: Client, m: Message):
   
                 elif ".pdf" in url:
                     if "cwmediabkt99" in url:
-                        try:
-                            await asyncio.sleep(4)
-                            url = url.replace(" ", "%20")
-                            scraper = cloudscraper.create_scraper()
-                            response = scraper.get(url)
-                            if response.status_code == 200:
-                                with open(f'{name}.pdf', 'wb') as file:
-                                    file.write(response.content)
-                                await asyncio.sleep(4)
-                                copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                                count += 1
-                                os.remove(f'{name}.pdf')
-                            else:
-                                await m.reply_text(f"Failed to download PDF: {response.status_code} {response.reason}")
-                                count += 1
-                                failed_count += 1
-                        except FloodWait as e:
-                            await m.reply_text(str(e))
-                            time.sleep(e.x)
-                            continue        
+                        max_retries = 5  # Define the maximum number of retries
+                        retry_delay = 4  # Delay between retries in seconds
+                        success = False  # To track whether the download was successful
 
+                        for attempt in range(max_retries):
+                            try:
+                                await asyncio.sleep(retry_delay)
+                                url = url.replace(" ", "%20")
+                                scraper = cloudscraper.create_scraper()
+                                response = scraper.get(url)
+
+                                if response.status_code == 200:
+                                    with open(f'{name}.pdf', 'wb') as file:
+                                        file.write(response.content)
+                                    await asyncio.sleep(retry_delay)  # Optional, to prevent spamming
+                                    copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                                    count += 1
+                                    os.remove(f'{name}.pdf')
+                                    success = True
+                                    break  # Exit the retry loop if successful
+                                else:
+                                    await m.reply_text(f"Attempt {attempt + 1}/{max_retries} failed: {response.status_code} {response.reason}")
+
+                            except Exception as e:
+                                await m.reply_text(f"Attempt {attempt + 1}/{max_retries} failed: {str(e)}")
+                                await asyncio.sleep(retry_delay)
+                                continue  # Retry the next attempt if an exception occurs
+
+                        if not success:
+                            await m.reply_text(f"Failed to download PDF after {max_retries} attempts.")
+        
                     else:
                         try:
                             cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
