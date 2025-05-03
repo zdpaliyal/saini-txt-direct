@@ -501,12 +501,12 @@ async def txt_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:
-                cc = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🎞️ Title :** `{name1}`\n**├── Extention :**  {CR} .mkv\n**├── Resolution :** [{res}]\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                cc1 = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**📁 Title :** `{name1}`\n**├── Extention :**  {CR} .pdf\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                cczip = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**📁 Title :** `{name1}`\n**├── Extention :**  {CR} .zip\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                ccimg = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🖼️ Title :** `{name1}`\n**├── Extention :**  {CR} .jpg\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                ccm = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🎵 Title :** `{name1}`\n**├── Extention :**  {CR} .mp3\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                cchtml = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🌐 Title :** `{name1}`\n**├── Extention :**  {CR} .html\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                cc = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🎞️ Title :** `{name1}`\n**├── Extention :**  {CR} .mkv\n**├── Resolution :** [{res}]\n\n**📚 Course : {b_name}**\n\n**🌟 Extracted By :** {CR}'
+                cc1 = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**📁 Title :** `{name1}`\n**├── Extention :**  {CR} .pdf\n\n**📚 Course : {b_name}**\n\n**🌟 Extracted By :** {CR}'
+                cczip = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**📁 Title :** `{name1}`\n**├── Extention :**  {CR} .zip\n\n**📚 Course : {b_name}**\n\n**🌟 Extracted By :** {CR}'
+                ccimg = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🖼️ Title :** `{name1}`\n**├── Extention :**  {CR} .jpg\n\n**📚 Course : {b_name}**\n\n**🌟 Extracted By :** {CR}'
+                ccm = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🎵 Title :** `{name1}`\n**├── Extention :**  {CR} .mp3\n\n**📚 Course : {b_name}**\n\n**🌟 Extracted By :** {CR}'
+                cchtml = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🌐 Title :** `{name1}`\n**├── Extention :**  {CR} .html\n\n**📚 Course : {b_name}**\n\n**🌟 Extracted By :** {CR}'
 
                 if "drive" in url:
                     ka = await helper.download(url, name)
@@ -601,6 +601,8 @@ async def txt_handler(bot: Client, m: Message):
                            f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
                            f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
                            f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"**Downlaoding encrypted videos may take some time. ⏳**\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
                            f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
                            f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
                            f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
@@ -630,6 +632,8 @@ async def txt_handler(bot: Client, m: Message):
                            f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
                            f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
                            f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"**Downlaoding DRM videos may take some time. ⏳**\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
                            f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
                            f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
                            f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">**Original Link**</a>\n┃\n' \
@@ -658,6 +662,8 @@ async def txt_handler(bot: Client, m: Message):
                            f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n┃\n" \
                            f'┣💃𝐂𝐫𝐞𝐝𝐢𝐭 » {CR}\n┃\n' \
                            f"╰━📚𝐁𝐚𝐭𝐜𝐡 𝐍𝐚𝐦𝐞 » `{b_name}`\n" \
+                           f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
+                           f"**Downlaoding videos may take some time. ⏳**\n" \
                            f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
                            f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
                            f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
