@@ -347,8 +347,8 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     except Exception as e:
         await m.reply_text(str(e))
 
+    await reply.delete(True)
     dur = int(duration(filename))
-
     start_time = time.time()
 
     try:
@@ -359,4 +359,3 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     finally:
         os.remove(filename)
         os.remove(f"{filename}.jpg")
-        await reply.delete(True)
