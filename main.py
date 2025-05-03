@@ -395,7 +395,7 @@ async def txt_handler(bot: Client, m: Message):
     raw_text3 = input3.text
     await input3.delete(True)
     if raw_text3 == '1':
-        CR = '[𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)'
+        CR = '[𝄟⃝‌🐬🇳‌ɪᴋʜɪʟ𝄟⃝🐬](https://t.me/+MdZ2996M2G43MWFl)'
     else:
         CR = raw_text3
 
@@ -418,7 +418,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         thumb = raw_text6
     await editable.delete()
-    await m.reply_text(f"`🎯Target Batch : {b_name}`")
+    await m.reply_text(f"🎯Target Batch : `{b_name}`")
 
     failed_count = 0
     count =int(raw_text)    
@@ -501,12 +501,12 @@ async def txt_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:
-                cc = f'**——— ✦ {str(count).zfill(3)} ✦ ———**\n\n**🎞️ Title :** `{name1} [{res}] .mkv`\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                cc1 = f'**——— ✦ {str(count).zfill(3)} ✦ ———**\n\n**📁 Title :** `{name1} .pdf`\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                cczip = f'**——— ✦ {str(count).zfill(3)} ✦ ———**\n\n**📁 Title :** `{name1} .zip`\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                ccimg = f'**——— ✦ {str(count).zfill(3)} ✦ ———**\n\n**🖼️ Title :** `{name1} .jpg`\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                ccm = f'**——— ✦ {str(count).zfill(3)} ✦ ———**\n\n**🎵 Title :** `{name1} .mp3`\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
-                cchtml = f'**——— ✦ {str(count).zfill(3)} ✦ ———**\n\n**🌐 Title :** `{name1} .html`\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                cc = f'[**——— ✦ {str(count).zfill(3)} ✦ ———**]({link0})\n\n**🎞️ Title :** `{name1}`\n**├── Extention :**  {CR} .mkv\n**├── Resolution :** [{res}]\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                cc1 = f'[**——— ✦ {str(count).zfill(3)} ✦ ———**]({link0})\n\n**📁 Title :** `{name1}`\n**├── Extention :**  {CR} .pdf\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                cczip = f'[**——— ✦ {str(count).zfill(3)} ✦ ———**]({link0})\n\n**📁 Title :** `{name1}`\n**├── Extention :**  {CR} .zip\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                ccimg = f'[**——— ✦ {str(count).zfill(3)} ✦ ———**]({link0})\n\n**🖼️ Title :** `{name1}`\n**├── Extention :**  {CR} .jpg\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                ccm = f'[**——— ✦ {str(count).zfill(3)} ✦ ———**]({link0})\n\n**🎵 Title :** `{name1}`\n**├── Extention :**  {CR} .mp3\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
+                cchtml = f'[**——— ✦ {str(count).zfill(3)} ✦ ———**]({link0})\n\n**🌐 Title :** `{name1}`\n**├── Extention :**  {CR} .html\n\n**📚 Course :** `{b_name}`\n\n**🌟 Extracted By :** {CR}'
                             
                   
                 if "drive" in url:
@@ -633,8 +633,8 @@ async def txt_handler(bot: Client, m: Message):
                            f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
                            f"📚𝐓𝐢𝐭𝐥𝐞 » `{name}`\n┃\n" \
                            f"┣🍁𝐐𝐮𝐚𝐥𝐢𝐭𝐲 » {quality}\n┃\n" \
-                           f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">__**Original Link**__</a>\n┃\n' \
-                           f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">__**Api Link**__</a>\n' \
+                           f'┣━🔗𝐋𝐢𝐧𝐤 » <a href="{link0}">**Original Link**</a>\n┃\n' \
+                           f'╰━━🖇️𝐔𝐫𝐥 » <a href="{url}">**Api Link**</a>\n' \
                            f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" \
                            f"🛑**Send** /stop **to stop process**\n┃\n" \
                            f"╰━✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)"
@@ -688,6 +688,6 @@ async def txt_handler(bot: Client, m: Message):
 
     await m.reply_text(f"⋅ ─ Total failed links is {failed_count} ─ ⋅")
 
-    await m.reply_text(f"⋅ ─ list index ({raw_text}-{len(links)}) out of range ─ ⋅\n\n✨ BATCH » `{b_name}✨`\n\n⋅ ─ DOWNLOADING ✩ COMPLETED ─ ⋅")
+    await m.reply_text(f"⋅ ─ list index ({raw_text}-{len(links)}) out of range ─ ⋅\n\n✨ **BATCH** » {b_name}✨\n\n⋅ ─ DOWNLOADING ✩ COMPLETED ─ ⋅")
              
 bot.run()
