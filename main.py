@@ -482,8 +482,6 @@ async def txt_handler(bot: Client, m: Message):
                 #url = "https://sr-get-video-quality.selav29696.workers.dev/?Vurl=" + "https://d1d34p8vz63oiq.cloudfront.net/" + id + f"/hls/{raw_text2}/main.m3u8" + policy
                 #print(url)
 
-            if "pdf*" in url:
-                url = f"https://dragoapi.vercel.app/pdf/{url}"
             if ".zip" in url:
                 url = f"https://video.pablocoder.eu.org/appx-zip?url={url}"
                 
@@ -516,15 +514,21 @@ async def txt_handler(bot: Client, m: Message):
                 cchtml = f'[——— ✦ {str(count).zfill(3)} ✦ ———]({link0})\n\n**🌐 Title :** `{name1}`\n**├── Extention :**  {CR} .html\n\n**📚 Course :** {b_name}\n\n**🌟 Extracted By :** {CR}'
 
                 if "drive" in url:
-                    ka = await helper.download(url, name)
-                    copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
-                    count+=1
-                    os.remove(ka)
-                    time.sleep(1)
-                    continue
+                    try:
+                        ka = await helper.download(url, name)
+                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
+                        count+=1
+                        os.remove(ka)
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        count += 1
+                        failed_count += 1
+                        continue    
 
                 elif ".pdf*" in url:
                     try:
+                        url = f"https://dragoapi.vercel.app/pdf/{url}"
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
                         os.system(download_cmd)
@@ -535,6 +539,7 @@ async def txt_handler(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         count += 1
+                        failed_count += 1
                         continue    
 
                 elif ".pdf" in url and not ".pdf*" in url:
@@ -552,49 +557,73 @@ async def txt_handler(bot: Client, m: Message):
                             os.remove(f'{name}.pdf')
                         else:
                             await m.reply_text(f"Failed to download PDF: {response.status_code} {response.reason}")
+                            count += 1
+                            failed_count += 1
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         count += 1
+                        failed_count += 1
                         continue              
 
                 elif ".ws" in url and  url.endswith(".ws"):
-                    await helper.pdf_download(f"{api_url}utkash-ws?url={url}&authorization={api_token}",f"{name}.html")
-                    time.sleep(1)
-                    await bot.send_document(chat_id=m.chat.id, document=f"{name}.html", caption=cchtml)
-                    os.remove(f'{name}.html')
-                    count += 1
-                    time.sleep(5)
-                    continue
+                    try:
+                        await helper.pdf_download(f"{api_url}utkash-ws?url={url}&authorization={api_token}",f"{name}.html")
+                        time.sleep(1)
+                        await bot.send_document(chat_id=m.chat.id, document=f"{name}.html", caption=cchtml)
+                        os.remove(f'{name}.html')
+                        count += 1
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        count += 1
+                        failed_count += 1
+                        continue    
                             
                 elif ".zip" in url:
-                    BUTTONSZIP= InlineKeyboardMarkup([[InlineKeyboardButton(text="🎥 ZIP STREAM IN PLAYER", url=f"{url}")]])
-                    await bot.send_photo(chat_id=m.chat.id, photo=photozip, caption=cczip, reply_markup=BUTTONSZIP)
-                    count +=1
-                    time.sleep(1)    
-                    continue
+                    try:
+                        BUTTONSZIP= InlineKeyboardMarkup([[InlineKeyboardButton(text="🎥 ZIP STREAM IN PLAYER", url=f"{url}")]])
+                        await bot.send_photo(chat_id=m.chat.id, photo=photozip, caption=cczip, reply_markup=BUTTONSZIP)
+                        count +=1
+                        time.sleep(1)
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        count += 1
+                        failed_count += 1
+                        continue    
 
                 elif any(ext in url for ext in [".jpg", ".jpeg", ".png"]):
-                    ext = url.split('.')[-1]
-                    cmd = f'yt-dlp -o "{name}.{ext}" "{url}"'
-                    download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                    os.system(download_cmd)
-                    copy = await bot.send_photo(chat_id=m.chat.d, photo=f'{name}.{ext}', caption=ccimg)
-                    count += 1
-                    os.remove(f'{name}.{ext}')
-                    time.sleep(e.x)
-                    continue
+                    try:
+                        ext = url.split('.')[-1]
+                        cmd = f'yt-dlp -o "{name}.{ext}" "{url}"'
+                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+                        os.system(download_cmd)
+                        copy = await bot.send_photo(chat_id=m.chat.d, photo=f'{name}.{ext}', caption=ccimg)
+                        count += 1
+                        os.remove(f'{name}.{ext}')
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        count += 1
+                        failed_count += 1
+                        continue    
 
                 elif any(ext in url for ext in [".mp3", ".wav", ".m4a"]):
-                    ext = url.split('.')[-1]
-                    cmd = f'yt-dlp -o "{name}.{ext}" "{url}"'
-                    download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                    os.system(download_cmd)
-                    copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.{ext}', caption=ccm)
-                    count += 1
-                    os.remove(f'{name}.{ext}')
-                    time.sleep(e.x)
-                    continue
+                    try:
+                        ext = url.split('.')[-1]
+                        cmd = f'yt-dlp -o "{name}.{ext}" "{url}"'
+                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+                        os.system(download_cmd)
+                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.{ext}', caption=ccm)
+                        count += 1
+                        os.remove(f'{name}.{ext}')
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        count += 1
+                        failed_count += 1
+                        continue    
                     
                 elif 'encrypted.m' in url:    
                     remaining_links = len(links) - count
@@ -683,6 +712,7 @@ async def txt_handler(bot: Client, m: Message):
                     time.sleep(1)
                 
             except Exception as e:
+                await reply.delete(True)
                 await m.reply_text(f'⚠️**Downloading Failed**⚠️\n**Name** =>> `{str(count).zfill(3)} {name1}`\n**Url** =>> {link0}', disable_web_page_preview=True)
                 count += 1
                 failed_count += 1
