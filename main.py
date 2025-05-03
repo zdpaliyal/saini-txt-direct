@@ -468,12 +468,19 @@ async def txt_handler(bot: Client, m: Message):
                 response = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers=headers)
                 url   = response.json()['url']
                                                         
-            elif "d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
-                vid_id =  url.split('/')[-2]
+            #elif "d1d34p8vz63oiq" in url or "sec1.pw.live" in url:
+                #vid_id =  url.split('/')[-2]
                 #url = f"https://pwplayer-38c1ae95b681.herokuapp.com/pw?url={url}&token={raw_text4}"
-                url = f"https://anonymouspwplayer-b99f57957198.herokuapp.com/pw?url={url}?token={raw_text4}"
+                #url = f"https://anonymouspwplayer-b99f57957198.herokuapp.com/pw?url={url}?token={raw_text4}"
                 #url =  f"{api_url}pw-dl?url={url}&token={raw_text4}&authorization={api_token}&q={raw_text2}"
                 #url = f"https://dl.alphacbse.site/download/{vid_id}/master.m3u8"
+            
+            elif '/master.mpd' in url:    
+                headers = {"Authorization": "Bearer {raw_text4}", "client-type": "WEB", "randomId": "142d9660-50df-41c0-8fcb-060609777b03"}
+                id =  url.split("/")[-2] 
+                policy = requests.post('https://api.penpencil.xyz/v1/files/get-signed-cookie', headers=headers, json={'url': f"https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd"}).json()['data']
+                url = "https://sr-get-video-quality.selav29696.workers.dev/?Vurl=" + "https://d1d34p8vz63oiq.cloudfront.net/" + id + f"/hls/{raw_text2}/main.m3u8" + policy
+                print(url)
 
             if "pdf*" in url:
                 url = f"https://dragoapi.vercel.app/pdf/{url}"
