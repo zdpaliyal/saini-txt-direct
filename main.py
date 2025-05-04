@@ -558,16 +558,12 @@ async def txt_handler(bot: Client, m: Message):
                                 failure_msgs.append(failure_msg)
                                 await asyncio.sleep(retry_delay)
                                 continue  # Retry the next attempt if an exception occurs
-            
-                        if success:
-                            # Delete all failure messages if the PDF is successfully downloaded
-                            for msg in failure_msgs:
-                                await msg.delete()
-                        else:
-                            # Delete all failure messages if the PDF is successfully downloaded
-                            for msg in failure_msgs:
-                                await msg.delete()
-                            count += 1
+
+                        # Delete all failure messages if the PDF is successfully downloaded
+                        for msg in failure_msgs:
+                            await msg.delete()
+                            
+                        if not success:
                             # Send the final failure message if all retries fail
                             await m.reply_text(f"Failed to download PDF after {max_retries} attempts.\n⚠️**Downloading Failed**⚠️\n**Name** =>> {str(count).zfill(3)} {name1}\n**Url** =>> {link0}", disable_web_page_preview)
                             
