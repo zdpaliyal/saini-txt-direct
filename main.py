@@ -283,22 +283,32 @@ async def info(bot: Client, update: Message):
 @bot.on_message(filters.command(["help"]))
 async def txt_handler(client: Client, m: Message):
     await bot.send_message(m.chat.id, text= (
-        f"🎉Congrats! You are using 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎:\n\n"
-        f"✦**Available Commands Here**✦\n\n"
-        f"┣⪼01. /start - To Alive Check Bot \n"
-        f"┣⪼02. /drm - for extract txt file\n"
-        f"┣⪼03. /y2t - YouTube to .txt Convert\n"
-        f"┣⪼04. /t2t - text to .txt Convert\n"
-        f"┣⪼05. /logs - To see Bot Working Logs\n"
-        f"┣⪼06. /cookies - To update YT cookies.\n"
-        f"┣⪼07. /id - Know chat/group/channel ID.\n"
-        f"┣⪼08. /info - Your information.\n"
-        f"┣⪼09. /stop - Stop the Running Task. 🚫\n"
-        f"╰⪼🔗  Direct Send Link For Extract (with https://)\n\n"
-        f"**If you have any questions, feel free to ask [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦](https://t.me/+MdZ2996M2G43MWFl)! 💬**\n"
+        f"╭━━━━━━━✦✧✦━━━━━━━╮\n"
+        f"💥 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦\n"
+        f"╰━━━━━━━✦✧✦━━━━━━━╯\n"
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n" 
+        f"📌 𝗠𝗮𝗶𝗻 𝗙𝗲𝗮𝘁𝘂𝗿𝗲𝘀:\n\n"  
+        f"➥ /start – Bot Status Check\n"
+        f"➥ /drm – Extract from .txt (Auto)\n"
+        f"➥ /y2t – YouTube → .txt Converter\n"  
+        f"➥ /t2t – Text → .txt Generator\n" 
+        f"➥ /stop – Cancel Running Task\n"
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ \n" 
+        f"⚙️ 𝗧𝗼𝗼𝗹𝘀 & 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀: \n\n" 
+        f"➥ /cookies – Update YT Cookies\n" 
+        f"➥ /id – Get Chat/User ID\n"  
+        f"➥ /info – User Details\n"  
+        f"➥ /logs – View Bot Activity\n"
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n"  
+        f"💡 𝗡𝗼𝘁𝗲:\n\n"  
+        f"• Send any link for auto-extraction\n"  
+        f"• Supports batch processing\n\n"  
+        f"╭────────⊰◆⊱────────╮\n"   
+        f" ➠ 𝐌𝐚𝐝𝐞 𝐁𝐲 : [𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎](https://t.me/saini_contact_bot) 💻\n"
+        f"╰────────⊰◆⊱────────╯\n"
         )
-    ) 
-
+    )                    
+          
 @bot.on_message(filters.command(["logs"]))
 async def send_logs(client: Client, m: Message):  # Correct parameter name
     try:
