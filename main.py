@@ -418,7 +418,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         thumb = raw_text6
     await editable.delete()
-    await m.reply_text(f"```🎯Target Batch\n{b_name}\n```")
+    await m.reply_text(f"__**🎯Target Batch : {b_name}**__")
 
     failed_count = 0
     count =int(raw_text)    
