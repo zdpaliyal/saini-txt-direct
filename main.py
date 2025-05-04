@@ -564,12 +564,13 @@ async def txt_handler(bot: Client, m: Message):
                             for msg in failure_msgs:
                                 await msg.delete()
                         else:
-                            # Send the final failure message if all retries fail
-                            await m.reply_text(f"Failed to download PDF after {max_retries} attempts.\n⚠️**Downloading Failed**⚠️\n**Name** =>> {str(count).zfill(3)} {name1}\n**Url** =>> {link0}", disable_web_page_preview)
                             # Delete all failure messages if the PDF is successfully downloaded
                             for msg in failure_msgs:
                                 await msg.delete()
                             count += 1
+                            # Send the final failure message if all retries fail
+                            await m.reply_text(f"Failed to download PDF after {max_retries} attempts.\n⚠️**Downloading Failed**⚠️\n**Name** =>> {str(count).zfill(3)} {name1}\n**Url** =>> {link0}", disable_web_page_preview)
+                            
             
                     else:
                         try:
