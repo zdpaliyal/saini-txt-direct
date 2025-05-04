@@ -531,7 +531,8 @@ async def txt_handler(bot: Client, m: Message):
                         max_retries = 5  # Define the maximum number of retries
                         retry_delay = 4  # Delay between retries in seconds
                         success = False  # To track whether the download was successful
-
+                        failure_msgs = []  # To keep track of failure messages
+                        
                         for attempt in range(max_retries):
                             try:
                                 await asyncio.sleep(retry_delay)
@@ -549,16 +550,23 @@ async def txt_handler(bot: Client, m: Message):
                                     success = True
                                     break  # Exit the retry loop if successful
                                 else:
-                                    await m.reply_text(f"Attempt {attempt + 1}/{max_retries} failed: {response.status_code} {response.reason}")
-
+                                    failure_msg = await m.reply_text(f"Attempt {attempt + 1}/{max_retries} failed: {response.status_code} {response.reason}")
+                                    failure_msgs.append(failure_msg)
+                                    
                             except Exception as e:
-                                await m.reply_text(f"Attempt {attempt + 1}/{max_retries} failed: {str(e)}")
+                                failure_msg = await m.reply_text(f"Attempt {attempt + 1}/{max_retries} failed: {str(e)}")
+                                failure_msgs.append(failure_msg)
                                 await asyncio.sleep(retry_delay)
                                 continue  # Retry the next attempt if an exception occurs
-
-                        if not success:
+            
+                        if success:
+                            # Delete all failure messages if the PDF is successfully downloaded
+                            for msg in failure_msgs:
+                                await msg.delete()
+                        else:
+                            # Send the final failure message if all retries fail
                             await m.reply_text(f"Failed to download PDF after {max_retries} attempts.")
-        
+            
                     else:
                         try:
                             cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
