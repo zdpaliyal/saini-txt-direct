@@ -335,18 +335,9 @@ async def download_and_decrypt_video(url, cmd, name, key):
             return None  
 
 async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
+    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:10 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
-    try:
-        result = subprocess.run(
-            f'ffmpeg -i "{filename}" -ss 00:00:10 -vframes 1 "{filename}.jpg"',
-            shell=True,
-            check=True,  # This will raise a CalledProcessError if the command fails
-        )
-        if result.returncode == 0:
-            reply = await m.reply_text(f"**Generate Thumbnail:**\n{name}")
-    except subprocess.CalledProcessError:
-        await m.reply.delete()  # Delete the reply
-
+    reply = await m.reply_text(f"**Generate Thumbnail:**\n{name}")
     try:
         if thumb == "/d":
             thumbnail = f"{filename}.jpg"
@@ -355,6 +346,7 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
             
     except Exception as e:
         await m.reply_text(str(e))
+        await reply.delete(True)
         
     dur = int(duration(filename))
     start_time = time.time()
