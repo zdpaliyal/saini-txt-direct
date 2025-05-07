@@ -346,8 +346,7 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
             
     except Exception as e:
         await m.reply_text(str(e))
-        await reply.delete(True)
-        
+      
     dur = int(duration(filename))
     start_time = time.time()
 
