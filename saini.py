@@ -21,48 +21,6 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 from base64 import b64decode
 
-
-
-# Same AES Key aur IV jo encryption ke liye use kiya tha
-KEY = b'^#^#&@*HDU@&@*()'   
-IV = b'^@%#&*NSHUE&$*#)'   
-
-# Decryption function
-def dec_url(enc_url):
-    enc_url = enc_url.replace("helper://", "")  # "helper://" prefix hatao
-    cipher = AES.new(KEY, AES.MODE_CBC, IV)
-    decrypted = unpad(cipher.decrypt(b64decode(enc_url)), AES.block_size)
-    return decrypted.decode('utf-8')
-
-# Function to split name & Encrypted URL properly
-def split_name_enc_url(line):
-    match = re.search(r"(helper://\S+)", line)  # Find `helper://` ke baad ka encrypted URL
-    if match:
-        name = line[:match.start()].strip().rstrip(":")  # Encrypted URL se pehle ka text
-        enc_url = match.group(1).strip()  # Sirf Encrypted URL
-        return name, enc_url
-    return line.strip(), None  # Agar encrypted URL nahi mila, to pura line name maan lo
-
-# Function to decrypt file URLs
-def decrypt_file_txt(input_file):
-    output_file = "decrypted_" + input_file  # Output file ka naam
-
-    # Ensure the directory exists
-    output_dir = os.path.dirname(output_file)
-    if output_dir and not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    with open(input_file, "r", encoding="utf-8") as f, open(output_file, "w", encoding="utf-8") as out:
-        for line in f:
-            name, enc_url = split_name_enc_url(line)  # Sahi tarike se name aur encrypted URL split karo
-            if enc_url:
-                dec = dec_url(enc_url)  # Decrypt URL
-                out.write(f"{name}: {dec}\n")  # Ek hi `:` likho
-            else:
-                out.write(line.strip() + "\n")  # Agar encrypted URL nahi mila to line jaisa hai waisa likho
-
-    return output_file   # Decrypted file ka naam return karega
-   
 def duration(filename):
     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                              "format=duration", "-of",
