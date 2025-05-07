@@ -323,16 +323,9 @@ async def send_logs(client: Client, m: Message):  # Correct parameter name
 async def txt_handler(bot: Client, m: Message):
     editable = await m.reply_text(f"**🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the txt file and wait.**")
     input: Message = await bot.listen(editable.chat.id)
-    y = await input.download()
+    x = await input.download()
     await input.delete(True)
     file_name, ext = os.path.splitext(os.path.basename(y))  # Extract filename & extension
-
-    if file_name.endswith("_helper"):  # ✅ Check if filename ends with "_helper"
-        x = decrypt_file_txt(y)  # Decrypt the file
-        await input.delete(True)
-    else:
-        x = y 
-
     path = f"./downloads/{m.chat.id}"
     pdf_count = 0
     img_count = 0
