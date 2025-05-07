@@ -325,7 +325,7 @@ async def txt_handler(bot: Client, m: Message):
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
-    file_name, ext = os.path.splitext(os.path.basename(y))  # Extract filename & extension
+    file_name, ext = os.path.splitext(os.path.basename(x))  # Extract filename & extension
     path = f"./downloads/{m.chat.id}"
     pdf_count = 0
     img_count = 0
