@@ -1,18 +1,24 @@
 ![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+To+Txt+Uploader+Bot+!)
 
-Welcome to DRM bot made by @nikhil.saini.khe (Instagram)
+***Welcome to DRM bot made by @nikhil.saini.khe (Instagram)***
 
-Note: CP DRM SUPPORTED MINIMUM QUALITY 360
+**Note:** CP DRM SUPPORTED MINIMUM QUALITY 360
 
-> **command**
+## Commands
 
-> /start start the bot.  
-> /stop stop the bot.  
-> /help to get help in using this bot.
+> /start - Start the Bot.  
+> /stop - Stop the Bot.  
+> /help - To get help for using this bot.
 
-Direct Deploy via click these button 
+## Deployment Process 
+> 1. Fork the Repository
+> 2. edit vars.py and fillup API ID and API HASH
+> 3. edit readme.md and change button link by your repository link
+> 4. Now direct click on button eg. Render, Heroku, Koyeb
 
-## Deploy to Heroku
+
+
+## Deploy Via Buttons
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/nikhilsainiop/saini-txt-direct)
 
