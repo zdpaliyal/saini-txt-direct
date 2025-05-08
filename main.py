@@ -781,7 +781,7 @@ async def text_handler(bot: Client, m: Message):
     await input4.delete(True)
     await editable.delete(True)
      
-    thumb == "/d"
+    thumb = "/d"
     count =1 
     arg =1
     try:
