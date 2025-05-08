@@ -237,35 +237,13 @@ async def getcookies_handler(client: Client, m: Message):
     except Exception as e:
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
 
-should_proceed = True
-
-@bot.on_message(filters.command(["restart"]) & filters.private)
-async def restart_command(client: Client, message: Message):
-    global should_proceed
-    await message.reply_text("**🔄 Restarting the bot... Please wait!**")
-    logging.info("Restarting bot initiated by user: %s", message.from_user.username)
-    try:
-        should_proceed = True
-        os.execl(sys.executable, sys.executable, *sys.argv)
-    except Exception as e:
-        logging.error("Failed to restart the bot: %s", str(e))
-        await message.reply_text(f"⚠️ Failed to restart the bot: {str(e)}")
-
-@bot.on_message(filters.command(["stop"]) & filters.private)
-async def stop_command(client: Client, message: Message):
-    global should_proceed
-    await message.reply_text("**§─═🚦 Process STOPPED 🚦═─§**")
-    should_proceed = False
-async def process_tasks():
-    global should_proceed
-    while should_proceed:
-        logging.info("Bot is processing tasks...")
-        await asyncio.sleep(5)  # Adjust the sleep time as needed
-        logging.info("Task completed. Continuing...")
+@bot.on_message(filters.command(["stop"]) )
+async def restart_handler(_, m):
+    await m.reply_text("**ˢᵗᵒᵖᵖᵉᵈ ᵇᵃᵇʸ**", True)
+    os.execl(sys.executable, sys.executable, *sys.argv)
         
 @bot.on_message(filters.command(["start"]))
 async def start_command(bot: Client, message: Message):
-    global should_proceed
     random_image_url = random.choice(image_urls)
     caption = (
         "𝐇𝐞𝐥𝐥𝐨 𝐃𝐞𝐚𝐫 👋!\n\n➠ 𝐈 𝐚𝐦 𝐚 𝐓𝐞𝐱𝐭 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐞𝐫 𝐁𝐨𝐭\n\n➠ Can Extract Videos & PDFs From Your Text File and Upload to Telegram!\n\n➠ For Guide Use Command /help 📖\n\n➠ 𝐌𝐚𝐝𝐞 𝐁𝐲 : 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎 🦁"
@@ -276,8 +254,6 @@ async def start_command(bot: Client, message: Message):
         caption=caption,
         reply_markup=keyboard
     )
-    if should_proceed:
-        asyncio.create_task(process_tasks())
 
 @bot.on_message(filters.command(["id"]))
 async def id_command(client, message: Message):
@@ -345,9 +321,6 @@ async def send_logs(client: Client, m: Message):  # Correct parameter name
 
 @bot.on_message(filters.command(["drm"]) )
 async def txt_handler(bot: Client, m: Message):
-    global should_proceed
-    if should_proceed:
-        asyncio.create_task(process_tasks())
     editable = await m.reply_text(f"**🔹Hi I am Poweful TXT Downloader📥 Bot.\n🔹Send me the txt file and wait.**")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
