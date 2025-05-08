@@ -780,19 +780,8 @@ async def text_handler(bot: Client, m: Message):
     raw_text4 = input4.text
     await input4.delete(True)
     
-    await editable.edit("🌅Send ☞ `Thumb URL` for **Thumbnail**\n\n🎞️Send ☞ `no` for **video** format\n\n📁Send ☞ `No` for **Document** format")
-    input6 = message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
-    raw_text6 = input6.text
-    await input6.delete(True)
-    await editable.delete()
-
-    thumb = input6.text
-    if thumb.startswith("http://") or thumb.startswith("https://"):
-        getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
-        thumb = "thumb.jpg"
-    else:
-        thumb == "no"
-
+    
+    thumb == "/d"
     count =1 
     arg =1
     try:
