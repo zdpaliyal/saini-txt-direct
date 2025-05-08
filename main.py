@@ -239,9 +239,15 @@ async def getcookies_handler(client: Client, m: Message):
 
 @bot.on_message(filters.command(["stop"]) )
 async def restart_handler(_, m):
-    await m.reply_text("**ˢᵗᵒᵖᵖᵉᵈ ᵇᵃᵇʸ**", True)
+    await m.reply_text("**§─═🚦𝐒𝐓𝐎𝐏𝐏𝐄𝐃🚦═─§**", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
-        
+
+@bot.on_message(filters.command(["restart"]) & filters.private)
+async def restart_command(client: Client, message: Message):
+    await message.reply_text("**🔄 Restarting the bot... Please wait!**")
+    # Relaunch the bot process
+    os.execl(sys.executable, sys.executable, *sys.argv)
+    
 @bot.on_message(filters.command(["start"]))
 async def start_command(bot: Client, message: Message):
     random_image_url = random.choice(image_urls)
