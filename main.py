@@ -75,7 +75,7 @@ keyboard = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+3k-1zcJxINYwNGZl"),
-            InlineKeyboardButton(text="🛠️ Repo", url="https://github.com/nikhilsainiop/saini-txt-direct"),
+            InlineKeyboardButton(text="🛠️ Repo", url="https://github.com/cyberseller999/saini-txt-direct"),
         ],
     ]
 )
@@ -985,10 +985,11 @@ async def text_handler(bot: Client, m: Message):
                 cc1 = f'📕𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CREDIT}`'
                   
                 if "drive" in url:
-                  ka = await helper.download(url, name)
+                    try:
+                        ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
+                        count+=1
                         os.remove(ka)
-                        time.sleep(1)
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
