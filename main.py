@@ -280,6 +280,7 @@ async def restart_handler(_, m):
 
 @bot.on_message(filters.command("start"))
 async def start(bot, m: Message):
+    user = await bot.get_me()
     mention = user.mention
     start_message = await bot.send_message(
         m.chat.id,
