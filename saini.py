@@ -257,8 +257,8 @@ async def download_video(url,cmd, name):
         return os.path.isfile.splitext[0] + "." + "mp4"
 
 
-async def send_doc(bot: Client, m: Message, cc, ka, cc1, prog, count, name):
-    reply = await m.reply_text(f"**★彡 ᵘᵖˡᵒᵃᵈⁱⁿᵍ 彡★ ...⏳**\n\n📚𝐓𝐢𝐭𝐥𝐞 » {name}\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ 𝙎𝘼𝙄𝙉𝙄 𝘽𝙊𝙏𝙎🐦")
+async def send_doc(bot: Client, m: Message, cc, ka, cc1, prog, count, name, channel_id):
+    reply = await bot.send_message(channel_id, f"Downloading pdf:\n<pre><code>{name}</code></pre>")
     time.sleep(1)
     start_time = time.time()
     await bot.send_document(ka, caption=cc1)
@@ -292,7 +292,7 @@ async def download_and_decrypt_video(url, cmd, name, key):
             print(f"Failed to decrypt {video_path}.")  
             return None  
 
-async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
+async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog, channel_id):
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:10 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
     reply = await m.reply_text(f"**Generate Thumbnail:**\n{name}")
@@ -309,11 +309,9 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     start_time = time.time()
 
     try:
-        await m.reply_video(filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur, progress=progress_bar,progress_args=(reply,start_time))
+        await bot.send_video(channel_id, filename, caption=cc, supports_streaming=True, height=720, width=1280, thumb=thumbnail, duration=dur, progress=progress_bar, progress_args=(reply, start_time))
     except Exception:
-        await m.reply_document(filename,caption=cc, progress=progress_bar,progress_args=(reply,start_time))
-    
-    finally:
-        await reply.delete(True)
-        os.remove(filename)
-        os.remove(f"{filename}.jpg")
+        await bot.send_document(channel_id, filename, caption=cc, progress=progress_bar, progress_args=(reply, start_time))
+    os.remove(filename)
+    await reply.delete(True)
+    os.remove(f"{filename}.jpg")
