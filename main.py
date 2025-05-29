@@ -51,9 +51,6 @@ AUTH_USER = os.environ.get('AUTH_USERS', '5680454765').split(',')
 AUTH_USERS = [int(user_id) for user_id in AUTH_USER]
 if int(OWNER) not in AUTH_USERS:
     AUTH_USERS.append(int(OWNER))
-CHANNEL_OWNERS = {}
-CHANNELS = os.environ.get('CHANNELS', '').split(',')
-CHANNELS_LIST = [int(channel_id) for channel_id in CHANNELS if channel_id.isdigit()]
 cookies_file_path = os.getenv("cookies_file_path", "youtube_cookies.txt")
 api_url = "http://master-api-v3.vercel.app/"
 api_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzkxOTMzNDE5NSIsInRnX3VzZXJuYW1lIjoi4p61IFtvZmZsaW5lXSIsImlhdCI6MTczODY5MjA3N30.SXzZ1MZcvMp5sGESj0hBKSghhxJ3k1GTWoBUbivUe1I"
@@ -98,13 +95,19 @@ async def add_auth_user(client: Client, message: Message):
             await message.reply_text("User ID is already authorized.")
         else:
             AUTH_USERS.append(new_user_id)
-            # Update the environment variable (if needed)
-            os.environ['AUTH_USERS'] = ','.join(map(str, AUTH_USERS))
             await message.reply_text(f"User ID {new_user_id} added to authorized users.")
     except (IndexError, ValueError):
         await message.reply_text("Please provide a valid user ID.")
-        
-@bot.on_message(filters.command("remauth") & filters.private)
+
+@bot.on_message(filters.command("users") & filters.private)
+async def list_auth_users(client: Client, message: Message):
+    if message.chat.id != OWNER:
+        return await message.reply_text("You are not authorized to use this command.")
+    
+    user_list = '\n'.join(map(str, get_all_user_ids()))  # Get user IDs from MongoDB
+    await message.reply_text(f"Authorized Users:\n{user_list}")
+
+@bot.on_message(filters.command("rmauth") & filters.private)
 async def remove_auth_user(client: Client, message: Message):
     if message.chat.id != OWNER:
         return await message.reply_text("You are not authorized to use this command.")
@@ -115,77 +118,10 @@ async def remove_auth_user(client: Client, message: Message):
             await message.reply_text("User ID is not in the authorized users list.")
         else:
             AUTH_USERS.remove(user_id_to_remove)
-            # Update the environment variable (if needed)
-            os.environ['AUTH_USERS'] = ','.join(map(str, AUTH_USERS))
             await message.reply_text(f"User ID {user_id_to_remove} removed from authorized users.")
     except (IndexError, ValueError):
         await message.reply_text("Please provide a valid user ID.")
-
-@bot.on_message(filters.command("users") & filters.private)
-async def list_auth_users(client: Client, message: Message):
-    if message.chat.id != OWNER:
-        return await message.reply_text("You are not authorized to use this command.")
     
-    user_list = '\n'.join(map(str, AUTH_USERS))
-    await message.reply_text(f"<blockquote>Authorized Users:</blockquote>\n{user_list}")
-
-@bot.on_message(filters.command("addchnl") & filters.private)
-async def add_channel(client: Client, message: Message):
-    if message.from_user.id not in AUTH_USERS:
-        return await message.reply_text("You are not authorized to use this command.")
-
-    try:
-        new_channel_id = int(message.command[1])
-        
-        # Validate that the channel ID starts with -100
-        if not str(new_channel_id).startswith("-100"):
-            return await message.reply_text("Invalid channel ID. Channel IDs must start with -100.")
-        
-        if new_channel_id in CHANNELS_LIST:
-            await message.reply_text("Channel ID is already added.")
-        else:
-            CHANNELS_LIST.append(new_channel_id)
-            CHANNEL_OWNERS[new_channel_id] = message.from_user.id  # Assign the user as the owner of the channel
-            # Update the environment variable (if needed)
-            os.environ['CHANNELS'] = ','.join(map(str, CHANNELS_LIST))
-            await message.reply_text(f"Channel ID {new_channel_id} added to the list and you are now the owner.")
-    except (IndexError, ValueError):
-        await message.reply_text("Please provide a valid channel ID.")
-
-@bot.on_message(filters.command("remchnl") & filters.private)
-async def remove_channel(client: Client, message: Message):
-    try:
-        channel_id_to_remove = int(message.command[1])
-        
-        # Check if the channel exists in the list
-        if channel_id_to_remove not in CHANNELS_LIST:
-            return await message.reply_text("Channel ID is not in the list.")
-        
-        # Check if the user is the OWNER or the channel owner
-        if message.from_user.id != OWNER and CHANNEL_OWNERS.get(channel_id_to_remove) != message.from_user.id:
-            return await message.reply_text("You are not authorized to remove this channel.")
-
-        # Remove the channel
-        CHANNELS_LIST.remove(channel_id_to_remove)
-        if channel_id_to_remove in CHANNEL_OWNERS:
-            del CHANNEL_OWNERS[channel_id_to_remove]  # Remove from the ownership dictionary if present
-        
-        # Update the environment variable (if needed)
-        os.environ['CHANNELS'] = ','.join(map(str, CHANNELS_LIST))
-        await message.reply_text(f"Channel ID {channel_id_to_remove} removed from the list.")
-    except (IndexError, ValueError):
-        await message.reply_text("Please provide a valid channel ID.")
-
-@bot.on_message(filters.command("channels") & filters.private)
-async def list_channels(client: Client, message: Message):
-    if message.chat.id != OWNER:
-        return await message.reply_text("You are not authorized to use this command.")
-    
-    if not CHANNELS_LIST:
-        await message.reply_text("No channels have been added yet.")
-    else:
-        channel_list = '\n'.join(map(str, CHANNELS_LIST))
-        await message.reply_text(f"<blockquote>Authorized Channels:</blockquote>\n{channel_list}")
         
 @bot.on_message(filters.command("cookies") & filters.private)
 async def cookies_handler(client: Client, m: Message):
