@@ -1,3 +1,4 @@
+#saini bots
 async-lru==2.0.2
 certifi==2023.5.7
 charset-normalizer==3.1.0
@@ -6,6 +7,7 @@ mutagen==1.46.0
 pyaes==1.6.1
 pycryptodome==3.18.0
 pyrogram
+pyrofork
 pyromod==1.5
 PySocks==1.7.1
 python-dotenv==1.0.0
