@@ -860,7 +860,7 @@ async def txt_handler(bot: Client, m: Message):
     if raw_text7 == "/d":
         await bot.send_message(channel_id, f"<blockquote><b>-┈━═.•°✅ Completed ✅°•.═━┈-</b></blockquote>\n\n<blockquote><b>🎯Batch Name : {b_name}</b>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {other_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
     else:
-        await bot.send_message(channel_id, f"<blockquote><b>-┈━═.•°✅ Completed ✅°•.═━┈-</b></blockquote>\n\n<blockquote><b>🎯Batch Name : [{b_name}](batch_link)</b>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {other_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
+        await bot.send_message(channel_id, f"<blockquote><b>-┈━═.•°✅ Completed ✅°•.═━┈-</b></blockquote>\n\n<blockquote><b>🎯Batch Name : {b_name}</b>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {other_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
         await bot.send_message(m.chat.id, f"<blockquote><b>✅ Your Task is completed, please check your Set Channel📱</b></blockquote>")
 
 
