@@ -612,16 +612,19 @@ async def txt_handler(bot: Client, m: Message):
         channel_id = raw_text7    
     await editable.delete()
 
-    if "/d" in raw_text7 and raw_text == "1":
-        batch_message = await m.reply_text(f"<blockquote><b>🎯Target Batch : {b_name}</b></blockquote>")
-    else:
-        try:
-            if raw_text == "1":
-                batch_message = await bot.send_message(chat_id=channel_id, text=f"<blockquote><b>🎯Target Batch : {b_name}</b></blockquote>")
-            await bot.send_message(chat_id=m.chat.id, text=f"<blockquote><b><i>🎯Target Batch : {b_name}</i></b></blockquote>\n\n🔄 Your Task is under processing, please check your Set Channel📱. Once your task is complete, I will inform you 📩")
-        except Exception as e:
-            await m.reply_text(f"<blockquote><b>Fail Reason »</b> {e}</blockquote>\n")
-            return
+    try:
+        if raw_text == "1":
+            batch_message = await bot.send_message(chat_id=channel_id, text=f"<blockquote><b>🎯Target Batch : {b_name}</b></blockquote>")
+            if "/d" not in raw_text7:
+                await bot.send_message(chat_id=m.chat.id, text=f"<blockquote><b><i>🎯Target Batch : {b_name}</i></b></blockquote>\n\n🔄 Your Task is under processing, please check your Set Channel📱. Once your task is complete, I will inform you 📩")
+                await bot.pin_chat_message(channel_id, batch_message.id)
+                batch_link = getattr(batch_message, "link", None)  # safer retrieval
+                message_id = batch_message.id
+                pinning_message_id = message_id + 1
+                await bot.delete_messages(channel_id, pinning_message_id)
+    except Exception as e:
+        await m.reply_text(f"**Fail Reason »**\n<blockquote><i>{e}</i></blockquote>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ {CREDIT}🌟`")
+
         
     failed_count = 0
     count =int(raw_text)    
@@ -857,7 +860,7 @@ async def txt_handler(bot: Client, m: Message):
     if raw_text7 == "/d":
         await bot.send_message(channel_id, f"<blockquote><b>-┈━═.•°✅ Completed ✅°•.═━┈-</b></blockquote>\n\n<blockquote><b>🎯Batch Name : {b_name}</b>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {other_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
     else:
-        await bot.send_message(channel_id, f"<blockquote><b>-┈━═.•°✅ Completed ✅°•.═━┈-</b></blockquote>\n\n<blockquote><b>🎯Batch Name : {b_name}</b>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {other_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
+        await bot.send_message(channel_id, f"<blockquote><b>-┈━═.•°✅ Completed ✅°•.═━┈-</b></blockquote>\n\n<blockquote><b>🎯Batch Name : [{b_name}](batch_link)</b>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {other_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
         await bot.send_message(m.chat.id, f"<blockquote><b>✅ Your Task is completed, please check your Set Channel📱</b></blockquote>")
 
 
