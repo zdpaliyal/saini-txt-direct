@@ -590,9 +590,9 @@ async def txt_handler(bot: Client, m: Message):
         cptoken = "cptoken"
         pwtoken = "pwtoken"
     else:
-        cwtoken = raw_text3
-        cptoken = raw_text3
-        pwtoken = raw_text3
+        cwtoken = raw_text4
+        cptoken = raw_text4
+        pwtoken = raw_text4
         
     await editable.edit(f"**Send the Video Thumb URL or send /d**")
     try:
