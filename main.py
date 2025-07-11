@@ -663,7 +663,7 @@ async def txt_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
 
-    await editable.edit(f"**Enter the Credit Name or send /d\n\n<blockquote>Format:\nSend __Admin__ only for caption\nSend __Admin,filename__ for caption and file\nSeparate them with a comma (,)</blockquote>**")
+    await editable.edit(f"**Enter the Credit Name or send /d\n\n<blockquote><b>Format:</b>\n🔹Send __Admin__ only for caption\n🔹Send __Admin,filename__ for caption and file...Separate them with a comma (,)</blockquote>**")
     try:
         input3: Message = await bot.listen(editable.chat.id, timeout=20)
         raw_text3 = input3.text
