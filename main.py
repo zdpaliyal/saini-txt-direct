@@ -20,7 +20,7 @@ from logs import logging
 from bs4 import BeautifulSoup
 import saini as helper
 from utils import progress_bar
-from vars import API_ID, API_HASH, BOT_TOKEN, OWNER, CREDIT, AUTH_USERS
+from vars import API_ID, API_HASH, BOT_TOKEN, OWNER, CREDIT, AUTH_USERS, TOTAL_USERS
 from aiohttp import ClientSession
 from subprocess import getstatusoutput
 from pytube import YouTube
@@ -29,7 +29,7 @@ import random
 from pyromod import listen
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, PeerIdInvalid, UserIsBlocked, InputUserDeactivated
 from pyrogram.errors.exceptions.bad_request_400 import StickerEmojiInvalid
 from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -66,10 +66,7 @@ photozip = 'https://envs.sh/cD_.jpg'
 BUTTONSCONTACT = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url="https://t.me/saini_contact_bot")]])
 keyboard = InlineKeyboardMarkup(
     [
-        [
-            InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+3k-1zcJxINYwNGZl"),
-            InlineKeyboardButton(text="🛠️ Repo", url="https://github.com/nikhilsainiop/saini-txt-direct"),
-        ],
+        [InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+3k-1zcJxINYwNGZl"), InlineKeyboardButton(text="🛠️ Repo", url="https://github.com/nikhilsainiop/saini-txt-direct")],
     ]
 )
 
@@ -116,6 +113,81 @@ async def remove_auth_user(client: Client, message: Message):
             await message.reply_text(f"**User ID `{user_id_to_remove}` removed from authorized users.**")
     except (IndexError, ValueError):
         await message.reply_text("**Please provide a valid user ID.**")
+
+
+@bot.on_message(filters.command("broadcast") & filters.private)
+async def broadcast_handler(client: Client, message: Message):
+    if message.chat.id != OWNER:
+        return
+    if not message.reply_to_message:
+        await message.reply_text("**Reply to any message (text, photo, video, or file) with /broadcast to send it to all users.**")
+        return
+    success = 0
+    fail = 0
+    for user_id in list(set(TOTAL_USERS)):
+        try:
+            # Text
+            if message.reply_to_message.text:
+                await client.send_message(user_id, message.reply_to_message.text)
+            # Photo
+            elif message.reply_to_message.photo:
+                await client.send_photo(
+                    user_id,
+                    photo=message.reply_to_message.photo.file_id,
+                    caption=message.reply_to_message.caption or ""
+                )
+            # Video
+            elif message.reply_to_message.video:
+                await client.send_video(
+                    user_id,
+                    video=message.reply_to_message.video.file_id,
+                    caption=message.reply_to_message.caption or ""
+                )
+            # Document
+            elif message.reply_to_message.document:
+                await client.send_document(
+                    user_id,
+                    document=message.reply_to_message.document.file_id,
+                    caption=message.reply_to_message.caption or ""
+                )
+            else:
+                await client.forward_messages(user_id, message.chat.id, message.reply_to_message.message_id)
+
+            success += 1
+        except (FloodWait, PeerIdInvalid, UserIsBlocked, InputUserDeactivated):
+            fail += 1
+            continue
+        except Exception as e:
+            fail += 1
+            continue
+
+    await message.reply_text(f"<b>Broadcast complete!</b>\n<blockquote><b>✅ Success: {success}\n❎ Failed: {fail}</b></blockquote>")
+
+@bot.on_message(filters.command("broadusers") & filters.private)
+async def broadusers_handler(client: Client, message: Message):
+    if message.chat.id != OWNER:
+        return
+
+    if not TOTAL_USERS:
+        await message.reply_text("**No Broadcasted User**")
+        return
+
+    user_infos = []
+    for user_id in list(set(TOTAL_USERS)):
+        try:
+            user = await client.get_users(int(user_id))
+            fname = user.first_name if user.first_name else " "
+            user_infos.append(f"[{user.id}](tg://openmessage?user_id={user.id}) | `{fname}`")
+        except Exception:
+            user_infos.append(f"[{user.id}](tg://openmessage?user_id={user.id})")
+
+    total = len(user_infos)
+    text = (
+        f"<blockquote><b>Total Users: {total}</b></blockquote>\n\n"
+        "<b>Users List:</b>\n"
+        + "\n".join(user_infos)
+    )
+    await message.reply_text(text)
     
         
 @bot.on_message(filters.command("cookies") & filters.private)
@@ -417,11 +489,17 @@ async def cancel_handler(client: Client, m: Message):
 
 @bot.on_message(filters.command("start"))
 async def start(bot, m: Message):
+    user_id = m.chat.id
+    if user_id not in TOTAL_USERS:
+        TOTAL_USERS.append(user_id)
     user = await bot.get_me()
+
     mention = user.mention
-    start_message = await bot.send_message(
-        m.chat.id,
-        f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n"
+    caption = f"🌟 Welcome {m.from_user.mention} ! 🌟"
+    start_message = await bot.send_photo(
+        chat_id=m.chat.id,
+        photo="https://tinypic.host/images/2025/07/14/Logo-1.jpg",
+        caption=caption
     )
 
     await asyncio.sleep(1)
